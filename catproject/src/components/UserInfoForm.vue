@@ -5,16 +5,7 @@
           <label>メールアドレス: {{ email }}</label>
         </div>
         <div>
-          <input type="number" v-model.number="latitude" placeholder="緯度" required />
-        </div>
-        <div>
-          <input type="number" v-model.number="longitude" placeholder="経度" required />
-        </div>
-        <div>
           <input v-model="userName" placeholder="ユーザー名" required />
-        </div>
-        <div>
-          <input v-model="catIds" placeholder="猫のID一覧 (カンマ区切り)" required />
         </div>
         <div>
           <input type="file" @change="onFileChange" required />
