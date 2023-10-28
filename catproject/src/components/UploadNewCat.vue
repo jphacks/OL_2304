@@ -2,18 +2,12 @@
   <div class="upload-section">
     <form @submit.prevent="submitForm">
       <p1>新規猫登録</p1>
-      <!-- 画像アップロード部分 -->
-      <!-- <div class="image-upload">
-        <label for="catImage">
-          <img src="./assets/cat1-1.jpg" alt="Upload Image" />
-        </label>
-        <input type="file" id="catImage" ref="fileInput" @change="previewImage">
-      </div> -->
       <div>
         <h1>画像のアップロード</h1>
         <div class="upload-box">
-          <input type="file" @change="handleFileUpload" accept="image/*" />
-        </div>
+      <input type="file" @change="handleFileUpload" accept="image/*" ref="fileInput" />
+      <img v-if="uploadedImage" :src="uploadedImage" width="200"/>
+    </div>
       </div>
 
 
@@ -44,8 +38,8 @@
       </div>
       <!-- 種類の選択 -->
       <div class="form-group">
-        <label for="catType" class="form-label">種類: </label>
-        <select id="catType" v-model="selectedType" class="custom-dropdown">
+        <label for="catBreed" class="form-label">種類: </label>
+        <select id="catBreed" v-model="selectedBreed" class="custom-dropdown">
           <option value="三毛">三毛</option>
           <option value="鯖">鯖</option>
           <option value="マンチカン">マンチカン</option>
@@ -58,8 +52,8 @@
       </div>
       <!-- 子・大人の選択 -->
       <div class="form-group">
-        <label for="catChildAdult" class="form-label">子猫/成猫: </label>
-        <select id="catChildAdult" v-model="selectedChildAdult" class="custom-dropdown">
+        <label for="catAge" class="form-label">子猫/成猫: </label>
+        <select id="catAge" v-model="selectedChildAdult" class="custom-dropdown">
           <option value="子猫">子猫</option>
           <option value="成猫">成猫</option>
           <option value="分からない">分からない</option>
@@ -67,7 +61,7 @@
       </div>
       <!-- 耳カットの選択 -->
       <div class="form-group">
-        <label for="catChoker" class="form-label">耳カット: </label>
+        <label for="catEarCut" class="form-label">耳カット: </label>
         <select id="catEarCut" v-model="selectedEarCut" class="custom-dropdown">
           <option value="あり">あり</option>
           <option value="なし">なし</option>
@@ -76,8 +70,8 @@
       </div>
       <!-- 首輪 -->
       <div class="form-group">
-        <label for="catChoker" class="form-label">首輪: </label>
-        <select id="catChoker" v-model="selectedcatChoker" class="custom-dropdown">
+        <label for="catCollar" class="form-label">首輪: </label>
+        <select id="catCollar" v-model="selectedCollar" class="custom-dropdown">
           <option value="あり">あり</option>
           <option value="なし">なし</option>
           <option value="分からない">分からない</option>
@@ -92,49 +86,92 @@
           </div>
         </div>
       </div>
-      <!-- <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoFinishUpload">投稿</button>     -->
-      <button type="button" class="submitButton" @click.prevent="gotoFinishUpload">投稿</button>
+      <p v-if="errorMessage" class="error-message" style="color: red">{{ errorMessage }}</p>
+      <button type="button" class="submitButton" @click.prevent="submitForm" >投稿</button>
     </form>
   </div>
 </template>
+
 <script>
+import { ref } from 'vue'
+import { uploadCat } from '../CatFirebase.js'
+import { useRouter } from 'vue-router'
 export default {
-  data() {
-    return {
-      selectedType: '',
-      selectedColor: '',
-      uploadedImage: '',
-      selectedOption: '',
-      comment: '',
-      comments: [] // プルダウンの初期値
-    }
-  },
+  name: 'UploadNewCat',
   methods: {
-    submitForm() {
-      console.log("Form Submitted!");
-      // ここでデータをAPIやバックエンドに送信する処理を記述
     },
-    previewImage() {
-      const fileInput = this.$refs.fileInput;
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.uploadedImage = e.target.result;
-        }
-        reader.readAsDataURL(fileInput.files[0]);
+  setup() {
+    const router = useRouter()
+    const uploadedImage = ref(null)
+    const image = ref(null)
+    const selectedColor = ref('')
+    const selectedPattern = ref('')
+    const selectedBreed = ref('')
+    const selectedChildAdult = ref('')
+    const selectedEarCut = ref('')
+    const selectedCollar = ref('')
+    const comment = ref('')
+    const latitude = ref('35.6764')//TODO
+    const longitude = ref('139.6500')
+    const errorMessage = ref('')
+
+    const handleFileUpload = (event) => {
+      image.value = event.target.files[0]
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        uploadedImage.value = e.target.result
       }
-    },
-    gotoFinishUpload() {
-      this.$router.push({ name: 'FinishUpload' });
-    },
-    addComment() {
-      // コメントを追加するメソッド
-      if (this.comment) {
-        this.comments.push(this.comment);
-        this.comment = '';
-        }
-      }
+      reader.readAsDataURL(image.value)
     }
+
+    const gotoFinishUpload = () => {
+      router.push({ name: 'FinishUpload' })
+    }
+
+    const isSubmitDisabled = () => {
+      return !selectedColor.value || !selectedPattern.value || !selectedBreed.value || !selectedChildAdult.value || !selectedEarCut.value || !selectedCollar.value
+    }
+
+    const submitForm = () => {
+      if (!selectedColor.value || !selectedPattern.value || !selectedBreed.value || !selectedChildAdult.value || !selectedEarCut.value || !selectedCollar.value) {
+        errorMessage.value = '未入力の項目があります'
+        return
+      }
+      uploadCat({
+        image: image.value,
+        color: selectedColor.value,
+        pattern: selectedPattern.value,
+        breed: selectedBreed.value,
+        AdultOrChild: selectedChildAdult.value,
+        isEarCut: selectedEarCut.value,
+        hasCollar: selectedCollar.value,
+        comment: comment.value,
+        latitude: latitude.value,
+        longitude: longitude.value,
+        userId: 'testID',//TODO
+        isNew: 'True'
+      })
+      gotoFinishUpload()
+    }
+        return {
+      image,
+      uploadedImage,
+      selectedColor,
+      selectedPattern,
+      selectedBreed,
+      selectedChildAdult,
+      selectedEarCut,
+      selectedCollar,
+      comment,
+      latitude,
+      longitude,
+      handleFileUpload,
+      submitForm,
+      comments: [],
+      isSubmitDisabled,
+      errorMessage
+    }
+  }
 }
 </script>
 
