@@ -15,6 +15,12 @@
   <div class="home-page">
     <div class="form-section">
       <form>
+        <p>最近発見されたばかり</p>
+        <select v-model="isNew">
+          <option value="">指定なし</option>
+          <option value="True">最近発見されたばかり</option>
+        </select>
+
         <p>猫の色</p>
         <select v-model="selectedColor">
           <option value="">指定なし</option>
@@ -70,31 +76,38 @@
           <option value="あり">あり</option>
           <option value="なし">なし</option>
         </select>
-        <p>選択した値: {{ selectedType }}</p>
-
+        </form>
         <center>
-          <button type="button" class="narrow-button">絞り込み</button>
+          <button type="button" class="narrow-button" @click="refreshMap">絞り込み</button>
         </center>
-      </form>
+      
     </div>
 
     <div class="map-section">
       <div class="form-group">
         <label for="map-container" class="map-container"></label>
-        <GoogleMap></GoogleMap>
+        <GMapMap
+      :center= "{ lat: 35.6764, lng: 139.6500 }"
+      :zoom="13"
+      map-type-id="roadmap"
+      style="width: 50vw; height: 450px"
+  >
+  <GMapMarker
+      v-for="(m, index) in markers"
+      :key="index"
+      :position= m.position
+      :icon= "{
+          url: m.imageURL,
+          scaledSize: {width: 100, height: 100},
+          anchor: {x: 50, y: 50}
+      }"
+      :clickable="true"
+      @click="goToCatDetailPage()"
+      class="cat"
+    />
+  </GMapMap>
       </div>
     </div>
-
-    <!-- <center>
-    <GoogleMap></GoogleMap>
-    </center> -->
-
-    <!-- <div>
-      <div class="form-group">
-        <label for="map-container" class="map-container"></label>
-        <GoogleMap></GoogleMap>
-      </div>
-    </div> -->
   </div>
   <div class="gotoCatMap">
       <form method="post">
@@ -105,12 +118,76 @@
 </template>
 
 <script>
-import GoogleMap from './Gmap.vue'
+import { ref, onMounted } from 'vue';
+import { searchCat } from '../CatFirebase';
 export default {
-  name: 'HomePage',
-  props: {
-    msg: String
+  
+  setup() {
+    const markers = ref([]);
+    const selectedColor = ref('');
+    const selectedPattern = ref('');
+    const selectedType = ref('');
+    const selectedChildAdult = ref('');
+    const selectedEarCut = ref('');
+    const selectedChoker = ref('');
+    const isNew = ref('');
+    let catsdata = [];
+    let markersdata = [];
+
+    const loadMarkers = async () => {
+      catsdata = await searchCat({});
+      const markersdata = catsdata.map((element) => {
+        return {
+          position: {
+            lat: parseFloat(element.data.latitude),
+            lng: parseFloat(element.data.longitude),
+          },
+          imageURL: element.data.imageurl,
+          id: element.id,
+        };
+      });
+      markers.value = markersdata;
+    };
+
+    const refreshMap = async () => {
+      catsdata =  await searchCat({
+        color: selectedColor.value,
+        pattern: selectedPattern.value,
+        type: selectedType.value,
+        childAdult: selectedChildAdult.value,
+        earCut: selectedEarCut.value,
+        choker: selectedChoker.value,
+        isNew: isNew.value,
+      });
+      markersdata = catsdata.map((element) => {
+        return {
+          position: {
+            lat: parseFloat(element.data.latitude),
+            lng: parseFloat(element.data.longitude),
+          },
+          imageURL: element.data.imageurl,
+          id: element.id,
+        };
+      });
+      markers.value = markersdata;
+    };
+
+    onMounted(() => {
+      loadMarkers();
+    });
+    return {
+      markers,
+      refreshMap,
+      selectedColor,
+      selectedPattern,
+      selectedType,
+      selectedChildAdult,
+      selectedEarCut,
+      selectedChoker,
+      isNew,
+    };
   },
+  name: 'HomePage',
   methods: {
     gotoMypage() {
       this.$router.push({ name: 'MyPage' });
@@ -120,17 +197,10 @@ export default {
     },
     gotoCatProfile() {
       this.$router.push({ name: 'CatProfile' });
-    }
+    },
   },
-  components:{
-    GoogleMap,
-  },
-  data() {
-    return {
-      selectedValue: '' // 選択した値を保持するデータプロパティ
-    };
-  }
-}
+}//q:なぜv-modelが更新されないの
+//a:https://qiita.com/ryo2132/items/1b0b2b0e2e2e2e2e2e2e
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

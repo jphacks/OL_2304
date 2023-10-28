@@ -122,7 +122,7 @@ export const searchCat = async (filter) => {
   
     const querySnapshot = await getDocs(queryRef);
     querySnapshot.forEach((doc) => {
-      data.push(doc.data());
+      data.push({data: doc.data(), id: doc.id});
     });
     return data;
   };
