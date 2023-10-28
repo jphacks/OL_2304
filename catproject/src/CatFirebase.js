@@ -97,7 +97,7 @@ export const searchCat = async (filter) => {
   
     const querySnapshot = await getDocs(queryRef);
     querySnapshot.forEach((doc) => {
-      data.push(doc.data);
+      data.push(doc.data());
     });
     return data;
   };

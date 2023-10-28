@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import GoogleMap from './Gmap.vue'
+import GoogleMap from './GmapPost.vue'
 export default {
   name: 'CatMap',
   props: {
