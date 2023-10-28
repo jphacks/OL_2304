@@ -85,7 +85,7 @@
       </div>
       <div class="comment-box">
         <h2>コメントを追加</h2>
-        <textarea v-model="comment" placeholder="コメントを入力してください"></textarea>
+        <textarea v-model="comment" placeholder="コメントを入力してください" style="width: 300px; height: 100px;"></textarea>
         <div class="comments">
           <div v-for="(c, index) in comments" :key="index" class="comment">
            {{ c }}
