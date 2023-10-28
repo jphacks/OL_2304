@@ -1,0 +1,51 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "TestCat",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "AdultOrChild",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "breed",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "color",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hasCollar",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isEarCut",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isNew",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "latitude",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "longitude",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "pattern",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "postedAt",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
