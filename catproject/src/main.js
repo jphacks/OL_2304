@@ -25,6 +25,8 @@ app.config.globalProperties.globallongi = 221;
 window.kuwagloballat = 3017;
 window.kuwagloballongi = 2021;
 
+window.selectedCatID = null;
+
 /*const globalState = reactive({
     lat: 317,
     longi: 221

@@ -9,11 +9,10 @@
     <button @click.prevent="gotoMypage">マイページ</button>
   </div>
 
-  <div class="gotoCatProfile">
-    <button @click.prevent="gotoCatProfile">猫アイコン予定</button>
-  </div>
   <div class="home-page">
+    <div class="form-wrapper">
     <div class="form-section">
+      <h2 class="form-title">表示する猫を絞り込む</h2>
       <form>
         <p>最近発見されたばかり</p>
         <select v-model="isNew">
@@ -82,7 +81,8 @@
         </center>
       
     </div>
-
+    </div>
+    <div class="map-wrapper">
     <div class="map-section">
       <div class="form-group">
         <label for="map-container" class="map-container"></label>
@@ -102,17 +102,17 @@
           anchor: {x: 50, y: 50}
       }"
       :clickable="true"
-      @click="goToCatDetailPage()"
+      @click="goToCatDetailPage(m.id)"
       class="cat"
     />
   </GMapMap>
       </div>
-    </div>
+    </div></div>
   </div>
   <div class="gotoCatMap">
       <form method="post">
         
-        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoCatMap">投稿</button>
+        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoCatMap">猫を投稿</button>
       </form>
     </div>
 </template>
@@ -195,7 +195,8 @@ export default {
     gotoCatMap() {
       this.$router.push({ name: 'CatMap' });
     },
-    gotoCatProfile() {
+    goToCatDetailPage(id) {
+      window.selectedCatID = id;
       this.$router.push({ name: 'CatProfile' });
     },
   },
@@ -237,7 +238,7 @@ width: 300px;
 margin-left: 500px;
 align-items: center;
 position: absolute; /* テキストを絶対位置に配置 */
-top: 800px; /* 上からの位置 */
+top: 600px; /* 上からの位置 */
 left: 120px; /* 左からの位置 */ 
 }
 .form-group {
@@ -281,10 +282,21 @@ height: 400px; /* マップの高さを調整 */
 .home-page {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 }
-
+.map-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 .form-section {
   margin-right: 20px;
+}
+.map-title {
+  margin-top: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  left: 420px;
 }
 
 .map-section {
@@ -302,7 +314,9 @@ height: 400px; /* マップの高さを調整 */
   margin: 0;
   padding: 0;
 }
-
+.map-section {
+  margin-top:-100px;
+}
 /* ブラウザのデフォルトのスタイルをリセット */
 body, div, h1, h2, h3, p, form {
   margin: 0;
@@ -310,5 +324,11 @@ body, div, h1, h2, h3, p, form {
 }
 select {
   width: 200px;
+}
+.form-wrapper {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
