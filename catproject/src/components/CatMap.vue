@@ -8,9 +8,7 @@
 
     <div class="uploaded">
       <form method="post">
-        <p>
-            地図
-        </p>
+        <center><GoogleMap></GoogleMap></center>
         <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoUploadExistCat">既存猫</button>
         <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoUploadNewCat">新規猫</button>
         </form>
@@ -18,6 +16,7 @@
 </template>
 
 <script>
+import GoogleMap from './Gmap.vue'
 export default {
   name: 'CatMap',
   props: {
@@ -30,6 +29,9 @@ export default {
     gotoUploadNewCat() {
       this.$router.push({ name: 'UploadNewCat' });
     }
+  },
+  components:{
+    GoogleMap,
   }
 }
 

@@ -12,6 +12,9 @@
     <div class="gotoCatProfile">
       <button @click.prevent="gotoCatProfile">猫アイコン予定</button>
     </div>
+    <center>
+    <GoogleMap></GoogleMap>
+    </center>
 
     <div class="gotoCatMap">
      
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+import GoogleMap from './Gmap.vue'
 export default {
   name: 'HomePage',
   props: {
@@ -38,6 +42,9 @@ export default {
     gotoCatProfile() {
       this.$router.push({ name: 'CatProfile' });
     }
+  },
+  components:{
+    GoogleMap,
   }
 }
 </script>
