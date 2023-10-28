@@ -1,63 +1,91 @@
 <template>
-  <div class="loading">
-    <div class="circle light"></div>
-    <div class="circle dark"></div>
-    <div class="branding"></div>
-  </div>
-  <p>猫情報掲載予定</p>
-  <p>色：</p>
-  <p>柄：</p>
-  <p>種類：</p>
-  <p>成猫</p>
-  <p>色耳カットなし</p>
-  <p>首輪なし</p>
-  <div class="catimage">
-    <h1>
-      <img :src="imgPath" alt="catImg" style="display: block; margin-left: 0; margin-right: auto;"/>
-    </h1>
-  </div>
-  <div class="uploaded">
-    <form method="post">
-      <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoHomePage">ホームに戻る</button>
-    </form>
+  <div>
+    <div class="card">
+      <div class="card-body">
+        <div class="catimage">
+          <img :src="imgPath" alt="catImg" style="display: block; margin-left: auto; margin-right: auto;"/>
+        </div>
+        <table>
+          <tr>
+            <td>色：</td>
+            <td>黒</td>
+          </tr>
+          <tr>
+            <td>柄：</td>
+            <td>模様</td>
+          </tr>
+          <tr>
+            <td>種類：</td>
+            <td>雑種</td>
+          </tr>
+          <tr>
+            <td>年齢：</td>
+            <td>成猫</td>
+          </tr>
+          <tr>
+            <td>耳カット：</td>
+            <td>なし</td>
+          </tr>
+          <tr>
+            <td>首輪：</td>
+            <td>なし</td>
+          </tr>
+          <tr>
+            <td>発見日：</td>
+            <td>2021年7月1日</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="uploaded">
+      <form method="post">
+        <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoHomePage">ホームに戻る</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
 import catImage from "../assets/cat1-1.jpg";
 export default {
-name: 'CatProfile',
-data() {
-  return {
-    
-    imgPath: catImage
-
+  name: 'CatProfile',
+  data() {
+    return {
+      imgPath: catImage
+    }
+  },
+  props: {
+    msg: String
+  },
+  methods: {
+    gotoHomePage() {
+      this.$router.push({ name: 'HomePage' });
+    }
   }
-},
-props: {
-  msg: String
-},
-methods: {
-  gotoHomePage() {
-    this.$router.push({ name: 'HomePage' });
-  }
-}
 }
 </script>
 
 <style scoped>
-h3 {
-margin: 40px 0 0;
+.card {
+  margin: 50px auto;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-ul {
-list-style-type: none;
-padding: 0;
+.card-body {
+  padding: 20px;
 }
-li {
-display: inline-block;
-margin: 0 10px;
+.catimage {
+  margin-bottom: 20px;
 }
-a {
-color: #42B983;
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+td {
+  padding: 10px;
+  border: 1px solid #ccc;
 }
 </style>
