@@ -9,12 +9,17 @@
     <button @click.prevent="gotoMypage">マイページ</button>
   </div>
 
-  <div class="gotoCatProfile">
-    <button @click.prevent="gotoCatProfile">猫アイコン予定</button>
-  </div>
   <div class="home-page">
+    <div class="form-wrapper">
     <div class="form-section">
+      <h2 class="form-title">表示する猫を絞り込む</h2>
       <form>
+        <p>最近発見されたばかり</p>
+        <select v-model="isNew">
+          <option value="">指定なし</option>
+          <option value="True">最近発見されたばかり</option>
+        </select>
+
         <p>猫の色</p>
         <select v-model="selectedColor">
           <option value="">指定なし</option>
@@ -70,47 +75,119 @@
           <option value="あり">あり</option>
           <option value="なし">なし</option>
         </select>
-        <p>選択した値: {{ selectedType }}</p>
-
+        </form>
         <center>
-          <button type="button" class="narrow-button">絞り込み</button>
+          <button type="button" class="narrow-button" @click="refreshMap">絞り込み</button>
         </center>
-      </form>
+      
     </div>
-
+    </div>
+    <div class="map-wrapper">
     <div class="map-section">
       <div class="form-group">
         <label for="map-container" class="map-container"></label>
-        <GoogleMap></GoogleMap>
+        <GMapMap
+      :center= "{ lat: 35.6764, lng: 139.6500 }"
+      :zoom="15"
+      map-type-id="roadmap"
+      style="width: 50vw; height: 500px"
+  >
+  <GMapMarker
+      v-for="(m, index) in markers"
+      :key="index"
+      :position= m.position
+      :icon= "{
+          url: m.imageURL,
+          scaledSize: {width: 80, height: 80},
+          anchor: {x: 50, y: 50}
+      }"
+      :clickable="true"
+      @click="goToCatDetailPage(m.id)"
+      class="cat"
+    />
+  </GMapMap>
       </div>
-    </div>
-
-    <!-- <center>
-    <GoogleMap></GoogleMap>
-    </center> -->
-
-    <!-- <div>
-      <div class="form-group">
-        <label for="map-container" class="map-container"></label>
-        <GoogleMap></GoogleMap>
-      </div>
-    </div> -->
+    </div></div>
   </div>
   <div class="gotoCatMap">
       <form method="post">
         
-        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoCatMap">投稿</button>
+        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoCatMap">猫を投稿</button>
       </form>
     </div>
 </template>
 
 <script>
-import GoogleMap from './Gmap.vue'
+import { ref, onMounted } from 'vue';
+import { searchCat } from '../CatFirebase';
 export default {
-  name: 'HomePage',
-  props: {
-    msg: String
+  
+  setup() {
+    const markers = ref([]);
+    const selectedColor = ref('');
+    const selectedPattern = ref('');
+    const selectedType = ref('');
+    const selectedChildAdult = ref('');
+    const selectedEarCut = ref('');
+    const selectedChoker = ref('');
+    const isNew = ref('');
+    let catsdata = [];
+    let markersdata = [];
+
+    const loadMarkers = async () => {
+      catsdata = await searchCat({});
+      const markersdata = catsdata.map((element) => {
+        return {
+          position: {
+            lat: parseFloat(element.data.latitude),
+            lng: parseFloat(element.data.longitude),
+          },
+          imageURL: element.data.imageurl,
+          id: element.id,
+        };
+      });
+      markers.value = markersdata;
+    };
+
+    const refreshMap = async () => {
+      catsdata =  await searchCat({
+        color: selectedColor.value,
+        pattern: selectedPattern.value,
+        type: selectedType.value,
+        childAdult: selectedChildAdult.value,
+        earCut: selectedEarCut.value,
+        choker: selectedChoker.value,
+        isNew: isNew.value,
+      });
+      markersdata = catsdata.map((element) => {
+        return {
+          position: {
+            lat: parseFloat(element.data.latitude),
+            lng: parseFloat(element.data.longitude),
+          },
+          imageURL: element.data.imageurl,
+          id: element.id,
+        };
+      });
+      markers.value = markersdata;
+    };
+
+    onMounted(() => {
+      loadMarkers();
+    });
+    return {
+      markers,
+      refreshMap,
+      selectedColor,
+      selectedPattern,
+      selectedType,
+      selectedChildAdult,
+      selectedEarCut,
+      selectedChoker,
+      isNew,
+    };
   },
+  name: 'HomePage',
   methods: {
     gotoMypage() {
       this.$router.push({ name: 'MyPage' });
@@ -118,19 +195,13 @@ export default {
     gotoCatMap() {
       this.$router.push({ name: 'CatMap' });
     },
-    gotoCatProfile() {
+    goToCatDetailPage(id) {
+      window.selectedCatID = id;
       this.$router.push({ name: 'CatProfile' });
-    }
+    },
   },
-  components:{
-    GoogleMap,
-  },
-  data() {
-    return {
-      selectedValue: '' // 選択した値を保持するデータプロパティ
-    };
-  }
-}
+}//q:なぜv-modelが更新されないの
+//a:https://qiita.com/ryo2132/items/1b0b2b0e2e2e2e2e2e2e
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -167,7 +238,7 @@ width: 300px;
 margin-left: 500px;
 align-items: center;
 position: absolute; /* テキストを絶対位置に配置 */
-top: 800px; /* 上からの位置 */
+top: 600px; /* 上からの位置 */
 left: 120px; /* 左からの位置 */ 
 }
 .form-group {
@@ -211,10 +282,21 @@ height: 400px; /* マップの高さを調整 */
 .home-page {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 }
-
+.map-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 .form-section {
   margin-right: 20px;
+}
+.map-title {
+  margin-top: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  left: 420px;
 }
 
 .map-section {
@@ -223,7 +305,7 @@ height: 400px; /* マップの高さを調整 */
   justify-content: center; /* 横方向（水平方向）に中央に配置 */
   align-items: center; /* 縦方向（垂直方向）に中央に配置 */
   position: absolute; /* テキストを絶対位置に配置 */
-  top: 240px; /* 上からの位置 */
+  top: 200px; /* 上からの位置 */
   left: 400px; /* 左からの位置 */ 
 }
 
@@ -232,7 +314,9 @@ height: 400px; /* マップの高さを調整 */
   margin: 0;
   padding: 0;
 }
-
+.map-section {
+  margin-top:-100px;
+}
 /* ブラウザのデフォルトのスタイルをリセット */
 body, div, h1, h2, h3, p, form {
   margin: 0;
@@ -240,5 +324,11 @@ body, div, h1, h2, h3, p, form {
 }
 select {
   width: 200px;
+}
+.form-wrapper {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
