@@ -54,6 +54,14 @@ export default {
 
     },
 
+    // グローバルではなく取得する方法
+    // getSelectedPosition (event) {
+    //   this.lat = event.latLng.lat();
+    //   this.lng = event.latLng.lng();
+    
+    //   this.$emit('locationSelected', { lat: this.lat, lng: this.lng });
+    // },
+
  }
 };
 </script>
