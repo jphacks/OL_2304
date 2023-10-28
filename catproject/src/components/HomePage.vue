@@ -88,9 +88,9 @@
         <label for="map-container" class="map-container"></label>
         <GMapMap
       :center= "{ lat: 35.6764, lng: 139.6500 }"
-      :zoom="13"
+      :zoom="15"
       map-type-id="roadmap"
-      style="width: 50vw; height: 450px"
+      style="width: 50vw; height: 500px"
   >
   <GMapMarker
       v-for="(m, index) in markers"
@@ -98,7 +98,7 @@
       :position= m.position
       :icon= "{
           url: m.imageURL,
-          scaledSize: {width: 100, height: 100},
+          scaledSize: {width: 80, height: 80},
           anchor: {x: 50, y: 50}
       }"
       :clickable="true"
@@ -305,7 +305,7 @@ height: 400px; /* マップの高さを調整 */
   justify-content: center; /* 横方向（水平方向）に中央に配置 */
   align-items: center; /* 縦方向（垂直方向）に中央に配置 */
   position: absolute; /* テキストを絶対位置に配置 */
-  top: 240px; /* 上からの位置 */
+  top: 200px; /* 上からの位置 */
   left: 400px; /* 左からの位置 */ 
 }
 
