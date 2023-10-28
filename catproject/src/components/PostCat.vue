@@ -42,18 +42,3 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="scss">
-h2{
-  border-left:10px solid blue;
-  padding-left:5px; ;
-}
-
-.ly_input{
-  padding:10px;
-  max-width: 900px;
-  margin:auto;
-}
-.ly_input_inner{
-  margin:10px;
-}
-</style>
