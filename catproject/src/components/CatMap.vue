@@ -9,19 +9,21 @@
   <div class="uploaded">
     <form method="post">
       <div class="map-container">
+        <p1>猫を見つけた場所を選択</p1>
+        <img src="https://1.bp.blogspot.com/-M5qxrnCBQVo/UnyF1sAe3iI/AAAAAAAAaVE/u1DFgIXrrl4/s800/nikukyu_cha.png" alt="肉球" style="width: 60px; height: 60px;">
         <center><GoogleMap></GoogleMap></center>
       </div>
-
       <div class="cat-card">
+        <p1>近隣で発見された猫から選ぶ</p1>
         <div class="cat-images">
+          <br> <!-- ここで改行を挿入 -->
           <div v-for="image in catImages" :key="image" class="cat-image-container">
             <img :src="image" alt="猫の画像" class="cat-image"/>
           </div>
         </div>
       </div>
 
-      <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoUploadExistCat">既存猫</button>
-      <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoUploadNewCat">新規猫</button>
+      <button type="button" class="gotoUploadNewCat" @click.prevent="gotoUploadNewCat">上記にいない猫を登録する</button>
     </form>
   </div>
 
@@ -46,13 +48,10 @@ export default {
         'https://urbanlife.tokyo/wp-content/uploads/2020/11/201128_catcat_01.jpg',
         'https://stat.ameba.jp/user_images/20230413/19/hironepu/86/d6/j/o2048191415269793409.jpg'
         // 他の画像URLをここに追加
-      ]
+      ],
     };
   },
   methods: {
-    gotoUploadExistCat() {
-      this.$router.push({ name: 'UploadExistCat' });
-    },
     gotoUploadNewCat() {
       this.$router.push({ name: 'UploadNewCat' });
     }
@@ -90,6 +89,10 @@ a {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: white; /* 背景色を白に設定 */
+  position: absolute; /* テキストを絶対位置に配置 */
+  top: 900px; /* 上からの位置 */
+  left: 10px; /* 左からの位置 */
 }
 
 .cat-images {
@@ -108,4 +111,29 @@ a {
   border-radius: 8px;
 }
 
+.uploaded p1{
+  font-size: 40px;
+  text-align: center;
+}
+.gotoUploadNewCat {
+    background: linear-gradient(to bottom, #009EFF 0px, #0075BC 100%) repeat scroll 0 0 transparent;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 0 #E6F5FF inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 10px 25px;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    width: 20%;
+    position: absolute; /* テキストを絶対位置に配置 */
+    top: 1400px; /* 上からの位置 */
+    left: 560px; /* 左からの位置 */ 
+    width: 450px; /* 幅を調整 */
+    height: 100px; /* 高さを調整 */
+    font-size: 30px; /* フォントサイズを調整 */
+}
 </style>
