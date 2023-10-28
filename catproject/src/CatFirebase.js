@@ -47,7 +47,7 @@ export const uploadCat=(catdata)=>{
 }
 
 //猫の情報を持ってくる関数。これはまだいじってないので、ちゃんと動かすには色々変える必要がある
-export const downloadCat=async()=>{
+/*export const downloadCat=async()=>{
   const data =[]
   const querySnapshot = await getDocs(collection(getFirestore(firebaseApp), "test"))
   querySnapshot.forEach((doc) => {
@@ -55,7 +55,28 @@ export const downloadCat=async()=>{
     data.push(doc.data())
   })
   return data
-}
+}*/
+
+export const downloadAndLogCat = async () => {
+  try {
+    // Firestoreからのデータを取得
+    const querySnapshot = await getDocs(collection(getFirestore(), "TestCat"));
+    
+    // ダウンロードしたデータを格納する配列
+    const catsData = [];
+    
+    // 各ドキュメントのデータを配列に追加
+    querySnapshot.forEach((doc) => {
+      catsData.push(doc.data());
+    });
+
+    // コンソールにダウンロードしたデータを表示
+    console.log(catsData);
+  } catch (error) {
+    console.error('Download failed', error);
+  }
+};
+
 
 // 猫を検索する関数. 今は猫のIDを返すようにしてるけど、猫の情報を返すように変える必要がある
 export const searchCat = async (filter) => {

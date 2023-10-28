@@ -20,15 +20,21 @@
       </form>
       <button @click="handleRegisterForm" class="btn btn-primary btn-block btn-large">新規登録</button>
     </div>
+
+    <create></create>
 </template>
 
 <script>
 //import { auth } from "@/firebase"; TODO: テスト用にコメントアウトしてる
 //import { signInWithEmailAndPassword } from "firebase/auth"; TODO: テスト用にコメントアウトしてる
+import create from './PostCat.vue'
 
 
 
 export default {
+  components:{
+    create,
+  },
   name: 'HelloWorld',
   data() {
     return {
