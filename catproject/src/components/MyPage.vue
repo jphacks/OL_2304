@@ -6,10 +6,7 @@
     <div class="branding"></div>
   </div>
   <p>
-    ユーザー名：  
-  </p>
-  <p>
-    メールアドレス：
+    メールアドレス：{{ email }}
   </p>
   <div class="login">
     <form method="post">
@@ -24,8 +21,24 @@
 
 <script>
 //import UserInfoForm from './UserInfoForm.vue';
+import { getAuth } from 'firebase/auth';
+import { ref, onMounted } from 'vue';
 
 export default {
+  setup() {
+      const auth = getAuth();
+      const email = ref('');
+      onMounted(() => {
+        const user = auth.currentUser;
+        if (user) {
+          email.value = user.email;
+        } else {
+          alert('ユーザーがログインしていません。');
+        }
+      });
+      return {
+        email,
+      }},
 name: 'MyPage',
 components: {
   //UserInfoForm,
