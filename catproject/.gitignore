@@ -4,6 +4,7 @@ node_modules
 /src/firebase.js
 src/googlemapkey.js
 
+
 # local env files
 .env.local
 .env.*.local

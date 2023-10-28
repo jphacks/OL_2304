@@ -3,59 +3,55 @@
       :center= "{ lat: 35.6764, lng: 139.6500 }"
       :zoom="13"
       map-type-id="roadmap"
-      style="width: 50vw; height: 450px"  
-      @load="getLocation"
+      style="width: 50vw; height: 450px"
   >
+  <GMapMarker
+      v-for="(m, index) in markers"
+      :key="index"
+      :position= m.position
+      :icon= "{
+          url: m.imageURL,
+          scaledSize: {width: 100, height: 100},
+          anchor: {x: 50, y: 50}
+      }"
+      :clickable="true"
+      @click="goToCatDetailPage()"
+      class="cat"
+    />
   </GMapMap>
 </template>
 
 <script>
+import { searchCat } from '../CatFirebase';
+// データベースに登録された猫の画像を地図上に表示する。
+const catsdata = await searchCat({});
+let markersdata = [];
+catsdata.forEach(element => {
+  markersdata.push({
+    position: {
+      lat: parseFloat(element.latitude),
+      lng: parseFloat(element.longitude)
+    },
+    imageURL: element.imageurl
+  });
+});
 export default {
   name: 'GoogleMap',
   data() {
     return {
-      center: { lat: 35.6764, lng: 139.6500 },
+      markers: markersdata
     };
   },
    methods: {
-   getLocation () {
-     if (process.client) {
-       if (!navigator.geolocation) {
-         alert('現在地情報を取得できませんでした。お使いのブラウザでは現在地情報を利用できない可能性があります。エリアを入力してください。')
-         return
-       }
-
-       const options = {
-         enableHighAccuracy: false,
-         timeout: 5000,
-         maximumAge: 0
-       }
-
-       navigator.geolocation.getCurrentPosition(this.success, this.error, options)
-     }
-   },
-
-   success (position) {
-     this.lat = position.coords.latitude
-     this.lng = position.coords.longitude
-   },
-
-   error (error) {
-     switch (error.code) {
-       case 1: //PERMISSION_DENIED
-         alert('位置情報の利用が許可されていません')
-         break
-       case 2: //POSITION_UNAVAILABLE
-         alert('現在位置が取得できませんでした')
-         break
-       case 3: //TIMEOUT
-         alert('タイムアウトになりました')
-         break
-       default:
-         alert('現在位置が取得できませんでした')
-         break
-     }
+    goToCatDetailPage() {
+      this.$router.push({name:'CatProfile'});
+    }
    }
- }
 };
 </script>
+
+<style>
+.cat {
+  border-radius: 50%;
+}
+</style>
