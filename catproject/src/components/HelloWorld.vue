@@ -20,15 +20,24 @@
       </form>
       <button @click="handleRegisterForm" class="btn btn-primary btn-block btn-large">新規登録</button>
     </div>
+
+    <create></create>
+
+
 </template>
 
 <script>
-//import { auth } from "@/firebase"; TODO: テスト用にコメントアウトしてる
-//import { signInWithEmailAndPassword } from "firebase/auth"; TODO: テスト用にコメントアウトしてる
+import { auth } from "@/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import create from './PostCat.vue'
+
 
 
 
 export default {
+  components:{
+    create,
+  },
   name: 'HelloWorld',
   data() {
     return {
@@ -38,14 +47,13 @@ export default {
   },
   methods: {
     async login() {
-      /*TODO: try {
+      try {
         await signInWithEmailAndPassword(auth, this.email, this.password);
         this.$router.push({ name: 'HomePage' });
       } catch (error) {
         console.error("Login failed:", error);
         alert("ログインに失敗しました。");
-      }*/
-      this.$router.push({ name: 'HomePage' });
+      }
     },
     handleRegisterForm() {
       this.$router.push({ name: 'RegisterForm' });
