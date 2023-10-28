@@ -92,7 +92,7 @@ a {
   background-color: white; /* 背景色を白に設定 */
   position: absolute; /* テキストを絶対位置に配置 */
   top: 900px; /* 上からの位置 */
-  left: 10px; /* 左からの位置 */
+  left: 0px; /* 左からの位置 */
 }
 
 .cat-images {

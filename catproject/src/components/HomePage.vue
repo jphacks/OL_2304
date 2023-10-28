@@ -16,7 +16,7 @@
     <div class="form-section">
       <form>
         <p>猫の色</p>
-        <select>
+        <select v-model="selectedColor">
           <option value="">指定なし</option>
           <option value="白">白</option>
           <option value="黒">黒</option>
@@ -28,7 +28,7 @@
         </select>
 
         <p>猫の柄</p>
-        <select>
+        <select v-model="selectedPattern">
           <option value="">指定なし</option>
           <option value="無地">無地</option>
           <option value="縦縞">縦縞</option>
@@ -38,7 +38,7 @@
         </select>
 
         <p>猫の種類</p>
-        <select>
+        <select v-model="selectedType">
           <option value="">指定なし</option>
           <option value="三毛">三毛</option>
           <option value="鯖">鯖</option>
@@ -51,25 +51,26 @@
         </select>
 
         <p>猫の年齢</p>
-        <select>
+        <select v-model="selectedChildAdult">
           <option value="">指定なし</option>
           <option value="子猫">子猫</option>
           <option value="成猫">成猫</option>
         </select>
 
         <p>耳のカット</p>
-        <select>
+        <select v-model="selectedEarCut">
           <option value="">指定なし</option>
           <option value="あり">あり</option>
           <option value="なし">なし</option>
         </select>
 
         <p>首輪</p>
-        <select>
+        <select v-model="selectedChoker">
           <option value="">指定なし</option>
           <option value="あり">あり</option>
           <option value="なし">なし</option>
         </select>
+        <p>選択した値: {{ selectedType }}</p>
 
         <center>
           <button type="button" class="narrow-button">絞り込み</button>
@@ -106,24 +107,29 @@
 <script>
 import GoogleMap from './Gmap.vue'
 export default {
-name: 'HomePage',
-props: {
-  msg: String
-},
-methods: {
-  gotoMypage() {
-    this.$router.push({ name: 'MyPage' });
+  name: 'HomePage',
+  props: {
+    msg: String
   },
-  gotoCatMap() {
-    this.$router.push({ name: 'CatMap' });
+  methods: {
+    gotoMypage() {
+      this.$router.push({ name: 'MyPage' });
+    },
+    gotoCatMap() {
+      this.$router.push({ name: 'CatMap' });
+    },
+    gotoCatProfile() {
+      this.$router.push({ name: 'CatProfile' });
+    }
   },
-  gotoCatProfile() {
-    this.$router.push({ name: 'CatProfile' });
+  components:{
+    GoogleMap,
+  },
+  data() {
+    return {
+      selectedValue: '' // 選択した値を保持するデータプロパティ
+    };
   }
-},
-components:{
-  GoogleMap,
-}
 }
 </script>
 
@@ -150,16 +156,19 @@ display: flex;
 align-items: center;
 }
 .gotoMyPage {
-/* position: absolute; マイページボタンを絶対位置指定 */
-/* top: -30px;
-right: 10px; */
-margin-left: 900px;
-width: 200px;
+  position: absolute;
+  top: -30px;
+  right: 0px;
+  /*margin-left: 900px;*/
+  width: 200px;
 }
 .gotoCatMap {/*投稿ボタン*/
 width: 300px;
 margin-left: 500px;
 align-items: center;
+position: absolute; /* テキストを絶対位置に配置 */
+top: 800px; /* 上からの位置 */
+left: 120px; /* 左からの位置 */ 
 }
 .form-group {
 /* margin-bottom: 20px;
@@ -209,7 +218,13 @@ height: 400px; /* マップの高さを調整 */
 }
 
 .map-section {
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  display: flex;
+  justify-content: center; /* 横方向（水平方向）に中央に配置 */
+  align-items: center; /* 縦方向（垂直方向）に中央に配置 */
+  position: absolute; /* テキストを絶対位置に配置 */
+  top: 240px; /* 上からの位置 */
+  left: 400px; /* 左からの位置 */ 
 }
 
 /* スタイルを追加または変更 */
@@ -223,5 +238,7 @@ body, div, h1, h2, h3, p, form {
   margin: 0;
   padding: 0;
 }
-
+select {
+  width: 200px;
+}
 </style>

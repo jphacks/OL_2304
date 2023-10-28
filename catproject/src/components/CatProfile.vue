@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <div class="catimage">
-          <img :src="imgPath" alt="catImg" style="display: block; margin-left: auto; margin-right: auto;"/>
+          <img :src="imgPath" alt="catImg" width="500" style="display: block; margin: 0 auto;"/>
         </div>
         <table>
           <tr>
@@ -39,7 +39,7 @@
     </div>
     <div class="uploaded">
       <form method="post">
-        <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoHomePage">ホームに戻る</button>
+        <button type="button" class="gotoHomePage" @click.prevent="gotoHomePage">ホームに戻る</button>
       </form>
     </div>
   </div>
@@ -87,5 +87,23 @@ table {
 td {
   padding: 10px;
   border: 1px solid #ccc;
+}
+.gotoHomePage {
+    background: linear-gradient(to bottom, #009EFF 0px, #0075BC 100%) repeat scroll 0 0 transparent;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 0 #E6F5FF inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 10px 25px;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    width: 25%;
+    position: absolute; /* テキストを絶対位置に配置 */
+    top: 1200px; /* 上からの位置 */
+    left: 580px; /* 左からの位置 */ 
 }
 </style>
