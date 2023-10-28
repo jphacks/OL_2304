@@ -106,6 +106,10 @@ export default {
   name: 'UploadNewCat',
   methods: {
     },
+    mounted() {
+      console.log(window.kuwagloballat)
+      console.log(window.kuwagloballongi)
+    },
   setup() {
     const router = useRouter()
     const uploadedImage = ref(null)
@@ -117,8 +121,10 @@ export default {
     const selectedEarCut = ref('')
     const selectedCollar = ref('')
     const comment = ref('')
-    const latitude = ref('35.6764')//TODO
-    const longitude = ref('139.6500')
+    //const latitude = ref('35.6764')//TODO
+    //const longitude = ref('139.6500')
+    const latitude = ref(window.kuwagloballat)
+    const longitude = ref(window.kuwagloballongi)
     const errorMessage = ref('')
 
     const handleFileUpload = (event) => {
