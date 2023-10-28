@@ -29,13 +29,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-exports.sendMailOnNewCat = functions.firestore.document("cats/{catId}")
+exports.sendMailOnNewCat = functions.firestore.document("TestCat/{catId}")
     .onCreate((snap, context) => {
       const mailOptions = {
         from: "fumiwata2000@gmail.com",
-        to: "khirami733@gmail.com", // 送信先のメールアドレス
+        to: "sabanna.taihei@gmail.com", // 送信先のメールアドレス
         subject: "新しい猫のお知らせ",
-        text: "新しい猫が追加されました！",
+        text: "近所で新しい猫が発見されました！",
       };
 
       return transporter.sendMail(mailOptions, (error, info) => {
