@@ -1,11 +1,10 @@
 <template>
   <GMapMap
       :center= "{ lat: 35.6764, lng: 139.6500 }"
-      :zoom="7"
-      map-type-id="terrain"
-      style="width: 100vw; height: 900px"  
+      :zoom="13"
+      map-type-id="roadmap"
+      style="width: 50vw; height: 450px"  
       @load="getLocation"
-      
   >
   </GMapMap>
 </template>
