@@ -98,13 +98,13 @@ export const searchCat = async (filter) => {
     if (filter.breed) {
       queryRef = query(queryRef,where("breed", "==", filter.breed));
     }
-    if (filter.AdultOrChild) {
+    if (filter.AdultOrChild && filter.AdultOrChild !== "分からない") {
       queryRef = query(queryRef,where("AdultOrChild", "==", filter.AdultOrChild));
     }
-    if (filter.isEarCut) {
+    if (filter.isEarCut && filter.isEarCut !== "分からない") {
       queryRef = query(queryRef,where("isEarCut", "==", filter.isEarCut));
     }
-    if (filter.hasCollar) {
+    if (filter.hasCollar && filter.hasCollar !== "分からない") {
       queryRef = query(queryRef,where("hasCollar", "==", filter.hasCollar));
     }
     if (filter.latitude) {
@@ -122,7 +122,7 @@ export const searchCat = async (filter) => {
   
     const querySnapshot = await getDocs(queryRef);
     querySnapshot.forEach((doc) => {
-      data.push(doc.data());
+      data.push({data: doc.data(), id: doc.id});
     });
     return data;
   };
