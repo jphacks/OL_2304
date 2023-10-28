@@ -71,18 +71,18 @@
           <option value="なし">なし</option>
         </select>
 
-        <button type="button" class="narrow-button">絞り込み</button>
+        <center>
+          <button type="button" class="narrow-button">絞り込み</button>
+        </center>
       </form>
     </div>
 
-    <center>
     <div class="map-section">
       <div class="form-group">
         <label for="map-container" class="map-container"></label>
         <GoogleMap></GoogleMap>
       </div>
     </div>
-    </center>
 
     <!-- <center>
     <GoogleMap></GoogleMap>
@@ -143,10 +143,23 @@ margin: 0 10px;
 a {
 color: #42b983;
 }
+
+.gotoCatProfile {
+width: 120px;
+display: flex;
+align-items: center;
+}
 .gotoMyPage {
-position: absolute; /* マイページボタンを絶対位置指定 */
-top: -30px;
-right: 10px;
+/* position: absolute; マイページボタンを絶対位置指定 */
+/* top: -30px;
+right: 10px; */
+margin-left: 900px;
+width: 200px;
+}
+.gotoCatMap {/*投稿ボタン*/
+width: 300px;
+margin-left: 500px;
+align-items: center;
 }
 .form-group {
 /* margin-bottom: 20px;
@@ -184,7 +197,7 @@ height: 400px; /* マップの高さを調整 */
 }
 
 .map-section {
-  flex: 1; /* 必要に応じて調整 */
+  display: flex;
 }
 .home-page {
   display: flex;
@@ -198,4 +211,17 @@ height: 400px; /* マップの高さを調整 */
 .map-section {
   flex-grow: 1;
 }
+
+/* スタイルを追加または変更 */
+.form-section, .map-section {
+  margin: 0;
+  padding: 0;
+}
+
+/* ブラウザのデフォルトのスタイルをリセット */
+body, div, h1, h2, h3, p, form {
+  margin: 0;
+  padding: 0;
+}
+
 </style>
