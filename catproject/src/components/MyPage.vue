@@ -17,18 +17,18 @@
       <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoUnSubscribed">退会手続き</button>
       </form>
   </div>
-  
+  <!--
   ユーザーの情報
-    <UserInfoForm></UserInfoForm>
+    <UserInfoForm></UserInfoForm>-->
 </template>
 
 <script>
-import UserInfoForm from './UserInfoForm.vue';
+//import UserInfoForm from './UserInfoForm.vue';
 
 export default {
 name: 'MyPage',
 components: {
-  UserInfoForm,
+  //UserInfoForm,
 },
 props: {
   msg: String
