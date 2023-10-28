@@ -13,33 +13,44 @@
     </div>
 
     <div class="login">
-      <form method="post">
-        <input type="text" name="u" placeholder="Username" required="required" />
-        <input type="password" name="p" placeholder="Password" required="required" />
-        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoHomePage">Login</button>
-        <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="handleRegisterForm">新規登録</button>
-        </form>
+      <form @submit.prevent="login">
+        <input type="text" v-model="email" placeholder="Email" required="required" />
+        <input type="password" v-model="password" placeholder="Password" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Login</button>
+      </form>
+      <button @click="handleRegisterForm" class="btn btn-primary btn-block btn-large">新規登録</button>
     </div>
 </template>
 
 <script>
+import { auth } from "@/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
   },
   methods: {
-    gotoHomePage() {
-      // ここで認証ロジックを実行することもできます。
-      // 認証が成功したら、以下のようにMyPageに遷移します。
-      this.$router.push({ name: 'HomePage' });
+    async login() {
+      try {
+        await signInWithEmailAndPassword(auth, this.email, this.password);
+        this.$router.push({ name: 'HomePage' });
+      } catch (error) {
+        console.error("Login failed:", error);
+        alert("ログインに失敗しました。");
+      }
     },
     handleRegisterForm() {
       this.$router.push({ name: 'RegisterForm' });
     }
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
