@@ -126,3 +126,31 @@ export const searchCat = async (filter) => {
     });
     return data;
   };
+
+// 元に戻すには以下を削除
+export const downloadCatsNearLocation = async (lat, lng) => {
+  try {
+    const collectionRef = collection(getFirestore(firebaseApp), "TestCat");
+    // 緯度経度の範囲を設定
+    const range = 0.009; // これは約1km
+
+    const queryRef = query(
+      collectionRef,
+      where("latitude", ">=", lat - range),
+      where("latitude", "<=", lat + range),
+      where("longitude", ">=", lng - range),
+      where("longitude", "<=", lng + range)
+    );
+
+    const querySnapshot = await getDocs(queryRef);
+    const catsData = [];
+    querySnapshot.forEach((doc) => {
+      catsData.push(doc.data());
+    });
+    return catsData;
+  } catch (error) {
+    console.error('Download failed', error);
+    return [];
+  }
+};
+// ...

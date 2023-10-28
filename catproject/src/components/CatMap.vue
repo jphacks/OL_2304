@@ -11,7 +11,22 @@
       <div class="map-container">
         <p1>猫を見つけた場所を選択</p1>
         <img src="https://1.bp.blogspot.com/-M5qxrnCBQVo/UnyF1sAe3iI/AAAAAAAAaVE/u1DFgIXrrl4/s800/nikukyu_cha.png" alt="肉球" style="width: 60px; height: 60px;">
-        <center><GoogleMap></GoogleMap></center>
+        <center>
+          <GMapMap
+            :center= "{ lat: 35.6764, lng: 139.6500 }"
+            :zoom="13"
+            map-type-id="roadmap"
+            style="width: 50vw; height: 450px"  
+            @click="getSelectedPosition"
+          >
+        <GMapMarker
+          :position="selectedPosition"
+          :clickable="false"
+          :draggable="false"
+        :animation="animation"
+        ></GMapMarker>
+      </GMapMap>
+        </center>
       </div>
       <div class="cat-card">
         <p1>近隣で発見された猫から選ぶ</p1>
@@ -31,34 +46,90 @@
 
 
 <script>
-import GoogleMap from './GmapPost.vue'
+import { getDocs } from 'firebase/firestore';
+// import { downloadCatsNearLocation } from '../CatFirebase.js'
+import { getFirestore, collection } from 'firebase/firestore';
+
+const db = getFirestore();
+const collectionRef = collection(db, 'TestCat');
 
 export default {
   name: 'CatMap',
   props: {
     msg: String
   },
+
   data() {
     return {
       catImages: [
-        'https://newsatcl-pctr.c.yimg.jp/t/iwiz-yn/rpr/ishiimasumi/00259735/title-1632409672924.jpeg?exp=10800', 
-        'https://p.potaufeu.asahi.com/c713-p/picture/26747079/e6388b5c0937642c0e97515110ef835c.jpg',
-        'https://www.yhg.co.jp/taiyo33/column/wp/wp-content/uploads/2021/05/cat-4806217_1280-1024x682.jpg',
-        'https://stat.ameba.jp/user_images/20230501/19/alma-soulmate/84/57/j/o1080081015278087136.jpg',
-        'https://urbanlife.tokyo/wp-content/uploads/2020/11/201128_catcat_01.jpg',
-        'https://stat.ameba.jp/user_images/20230413/19/hironepu/86/d6/j/o2048191415269793409.jpg'
-        // 他の画像URLをここに追加
       ],
+      lat: 35.6764,
+      lng: 139.6500,
+      selectedPosition: null,
+      animation: null,
     };
+
   },
+
   methods: {
     gotoUploadNewCat() {
       this.$router.push({ name: 'UploadNewCat' });
+    },
+
+    getSelectedPosition (event) {
+      this.selectedPosition = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      };
+      console.log(this.lat)
+      console.log(this.lng)
+      this.animation = 1;
+
+      window.kuwagloballat = this.lat
+      window.kuwagloballongi = this.lng
+
+      this.loadNearbyCats(this.lat, this.lng)
+
+    },
+
+    calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Radius of the Earth in km
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = 
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const d = R * c;
+      return d; // returns distance in km
+    },
+
+    async loadNearbyCats(lat, lng) {
+      const allCats = await this.fetchData();
+      this.catImages = allCats
+        .filter(cat => this.calculateDistance(lat, lng, cat.latitude, cat.longitude) <= 1)
+        .map(cat => cat.imageurl);
+      console.log(this.catImages);
+    },
+
+    async fetchData() {
+      const snapshot = await getDocs(collectionRef);
+      const data = snapshot.docs.map(doc => {
+        const docData = doc.data();
+        return {
+            ...docData,
+            latitude: parseFloat(docData.latitude),
+            longitude: parseFloat(docData.longitude)
+        };
+      });
+      return data; // 返り値を追加
     }
   },
-  components:{
-    GoogleMap,
-  }
+
+  mounted() {
+    this.fetchData();
+  },
 }
 
 </script>
