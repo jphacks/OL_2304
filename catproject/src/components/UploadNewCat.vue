@@ -106,6 +106,10 @@ export default {
   name: 'UploadNewCat',
   methods: {
     },
+    mounted() {
+      console.log(window.kuwagloballat)
+      console.log(window.kuwagloballongi)
+    },
   setup() {
     const router = useRouter()
     const uploadedImage = ref(null)
