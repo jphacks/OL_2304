@@ -16,6 +16,7 @@
       <div class="form-group">
         <label for="catColor" class="form-label">色: </label>
         <select id="catColor" v-model="selectedColor" class="custom-dropdown">
+          <option value="">選択してください</option>
           <option value="白">白</option>
           <option value="黒">黒</option>
           <option value="茶">茶</option>
@@ -29,6 +30,7 @@
       <div class="form-group">
         <label for="catPattern" class="form-label">柄: </label>
         <select id="catPattern" v-model="selectedPattern" class="custom-dropdown">
+          <option value="">選択してください</option>
           <option value="無地">無地</option>
           <option value="縦縞">縦縞</option>
           <option value="横縞">横縞</option>
@@ -40,6 +42,7 @@
       <div class="form-group">
         <label for="catBreed" class="form-label">種類: </label>
         <select id="catBreed" v-model="selectedBreed" class="custom-dropdown">
+          <option value="">選択してください</option>
           <option value="三毛">三毛</option>
           <option value="鯖">鯖</option>
           <option value="マンチカン">マンチカン</option>
@@ -54,6 +57,7 @@
       <div class="form-group">
         <label for="catAge" class="form-label">子猫/成猫: </label>
         <select id="catAge" v-model="selectedChildAdult" class="custom-dropdown">
+          <option value="">選択してください</option>
           <option value="子猫">子猫</option>
           <option value="成猫">成猫</option>
           <option value="分からない">分からない</option>
@@ -63,6 +67,7 @@
       <div class="form-group">
         <label for="catEarCut" class="form-label">耳カット: </label>
         <select id="catEarCut" v-model="selectedEarCut" class="custom-dropdown">
+          <option value="">選択してください</option>
           <option value="あり">あり</option>
           <option value="なし">なし</option>
           <option value="分からない">分からない</option>
@@ -72,6 +77,7 @@
       <div class="form-group">
         <label for="catCollar" class="form-label">首輪: </label>
         <select id="catCollar" v-model="selectedCollar" class="custom-dropdown">
+          <option value="">選択してください</option>
           <option value="あり">あり</option>
           <option value="なし">なし</option>
           <option value="分からない">分からない</option>
@@ -128,12 +134,9 @@ export default {
       router.push({ name: 'FinishUpload' })
     }
 
-    const isSubmitDisabled = () => {
-      return !selectedColor.value || !selectedPattern.value || !selectedBreed.value || !selectedChildAdult.value || !selectedEarCut.value || !selectedCollar.value
-    }
 
     const submitForm = () => {
-      if (!selectedColor.value || !selectedPattern.value || !selectedBreed.value || !selectedChildAdult.value || !selectedEarCut.value || !selectedCollar.value) {
+      if (!image.value || !selectedColor.value || !selectedPattern.value || !selectedBreed.value || !selectedChildAdult.value || !selectedEarCut.value || !selectedCollar.value) {
         errorMessage.value = '未入力の項目があります'
         return
       }
@@ -168,7 +171,6 @@ export default {
       handleFileUpload,
       submitForm,
       comments: [],
-      isSubmitDisabled,
       errorMessage
     }
   }
