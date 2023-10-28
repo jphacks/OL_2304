@@ -57,6 +57,7 @@ export const uploadCat=(catdata)=>{
   return data
 }*/
 
+
 export const downloadAndLogCat = async () => {
   try {
     // Firestoreからのデータを取得
@@ -65,9 +66,13 @@ export const downloadAndLogCat = async () => {
     // ダウンロードしたデータを格納する配列
     const catsData = [];
     
-    // 各ドキュメントのデータを配列に追加
+    // 各ドキュメントのデータとIDを配列に追加
     querySnapshot.forEach((doc) => {
-      catsData.push(doc.data());
+      const catDataWithId = {
+        id: doc.id,  // ドキュメントのIDを取得
+        ...doc.data()  // ドキュメントのデータを取得
+      };
+      catsData.push(catDataWithId);
     });
 
     // コンソールにダウンロードしたデータを表示
@@ -76,7 +81,6 @@ export const downloadAndLogCat = async () => {
     console.error('Download failed', error);
   }
 };
-
 
 // 猫を検索する関数. 今は猫のIDを返すようにしてるけど、猫の情報を返すように変える必要がある
 export const searchCat = async (filter) => {
