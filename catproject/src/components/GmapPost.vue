@@ -4,12 +4,15 @@
       :zoom="13"
       map-type-id="roadmap"
       style="width: 50vw; height: 450px"  
-      @load="getLocation"
       @click="getSelectedPosition"
   >
+  <GMapMarker
+      :position="selectedPosition"
+      :clickable="false"
+      :draggable="false"
+      :animation="animation"
+    ></GMapMarker>
   </GMapMap>
-  latitude: {{lat}}<br>
-  longitude: {{lng}}
 </template>
 
 <script>
@@ -22,14 +25,19 @@ export default {
     return {
       lat: 35.6764,
       lng: 139.6500,
+      selectedPosition: null,
+      animation: null,
     };
   },
    methods: {
     getSelectedPosition (event) {
-      this.lat = event.latLng.lat()
-      this.lng = event.latLng.lng()
+      this.selectedPosition = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      };
       console.log(this.lat)
       console.log(this.lng)
+      this.animation = 1;
 
       /*this.globallat = this.lat
       this.globallongi = this.lng
