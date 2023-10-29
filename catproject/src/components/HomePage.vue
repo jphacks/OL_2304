@@ -4,7 +4,7 @@
       <v-container class="ma-5">
         <v-row>
           <v-col cols="12" sm="6" md="4" lg="3">
-            <v-btn text color="primary" @click="gotoMypage">マイページ</v-btn>
+            <v-btn class="gotoMyPage" text color="primary" @click="gotoMypage">マイページ</v-btn>
           </v-col>
         </v-row>
         <v-row>
@@ -76,7 +76,7 @@
                     :center= "{ lat: 35.6764, lng: 139.6500 }"
                     :zoom="13"
                     map-type-id="roadmap"
-                    style="width: 50vw; height: 450px"
+                    style="width: 75vw; height: 750px"
                 ><GMapMarker
                   v-for="(m, index) in markers"
                   :key="index"
@@ -95,7 +95,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="6" md="4" lg="3">
-            <v-btn color="primary" @click="gotoCatMap">猫を投稿</v-btn>
+            <v-btn class="gotoCatMap" color="primary" @click="gotoCatMap">猫を投稿</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -247,12 +247,18 @@ width: 120px;
 display: flex;
 align-items: center;
 }
-.gotoMyPage {
-  position: absolute;
-  top: -30px;
-  right: 0px;
-  /*margin-left: 900px;*/
-  width: 200px;
+.gotoCatMap {/*投稿ボタン*/
+  display: block;
+  margin-top: 275px; /* ここを調整 */
+  text-align: center;
+  width: 30%;
+}
+.gotoMyPage {/*マイページ遷移ボタン*/
+  display: block;
+  margin-top: 10px; /* ここを調整 */
+  text-align: center;
+  margin-left: 750px;
+  width: 30%;
 }
 .gotoCatMap {/*投稿ボタン*/
 width: 300px;
@@ -314,7 +320,7 @@ height: 400px; /* マップの高さを調整 */
 }
 .map-title {
   margin-top: 0;
-  background-color: #fff;
+  background-color:  #dec88c;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   left: 420px;
@@ -351,5 +357,8 @@ select {
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+body, .v-application {
+  background-color: #dec88c !important;
 }
 </style>
