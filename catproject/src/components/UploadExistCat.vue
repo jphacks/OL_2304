@@ -13,6 +13,41 @@
       </div>
     </div>
 
+    <table>
+          <tr>
+            <td>色：</td>
+            <td>{{color}}</td>
+          </tr>
+          <tr>
+            <td>柄：</td>
+            <td>{{pattern}}</td>
+          </tr>
+          <tr>
+            <td>種類：</td>
+            <td>{{breed}}</td>
+          </tr>
+          <tr>
+            <td>年齢：</td>
+            <td>{{AdultOrChild}}</td>
+          </tr>
+          <tr>
+            <td>耳カット：</td>
+            <td>{{isEarCut}}</td>
+          </tr>
+          <tr>
+            <td>首輪：</td>
+            <td>{{hasCollar}}</td>
+          </tr>
+          <tr>
+            <td>発見日：</td>
+            <td>{{formatDate(postedAt)}}</td>
+          </tr>
+          <tr>
+            <td>コメント：</td>
+            <td>{{comment}}</td>
+          </tr>
+        </table>
+
     <div class="uploaded">
       <form method="post">
         <button type="button" class="submitButton" @click.prevent="gotoFinishUpload">送信</button>
@@ -21,7 +56,55 @@
 </template>
 
 <script>
+
+import { firebaseApp } from '../firebase';
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { onMounted, ref } from 'vue';
+
 export default {
+
+  setup() {
+    const docRef = doc(getFirestore(firebaseApp), "TestCat", window.selectedCatID);
+    const url = ref('');
+    const color = ref('');
+    const pattern = ref('');
+    const breed = ref('');
+    const age = ref('');
+    const isEarCut = ref('');
+    const hasCollar = ref('');
+    const isNew = ref('');
+    const postedAt = ref('');
+    const comment = ref('');
+
+    onMounted(async () => {
+      const docSnap = await getDoc(docRef);
+      url.value = docSnap.data().imageurl;
+      color.value = docSnap.data().color;
+      pattern.value = docSnap.data().pattern;
+      breed.value = docSnap.data().breed;
+      age.value = docSnap.data().AdultOrChild;
+      isEarCut.value = docSnap.data().isEarCut;
+      hasCollar.value = docSnap.data().hasCollar;
+      isNew.value = docSnap.data().isNew;
+      postedAt.value = docSnap.data().postedAt;
+      comment.value = docSnap.data().comment;
+    });
+
+    return {
+      imgPath: url,
+      color,
+      pattern,
+      breed,
+      age,
+      isEarCut,
+      hasCollar,
+      isNew,
+      postedAt,
+      comment,
+    };
+  
+  },
+
   name: 'UploadExist',
   props: {
     msg: String
@@ -29,7 +112,17 @@ export default {
   methods: {
     gotoFinishUpload() {
       this.$router.push({ name: 'FinishUpload' });
-    }
+    },
+    formatDate(timestamp) {
+      const date = new Date(timestamp.seconds * 1000);
+      const year = date.getFullYear();
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2);
+      const hours = ('0' + date.getHours()).slice(-2);
+      const minutes = ('0' + date.getMinutes()).slice(-2);
+      const seconds = ('0' + date.getSeconds()).slice(-2);
+      return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    },
   }
 }
 
