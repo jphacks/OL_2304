@@ -1,106 +1,120 @@
-<template>
-  <v-app>
-    <v-main>
-      <v-container class="ma-5">
-        <v-row>
-          <v-col cols="12" sm="6" md="4" lg="3">
-            <v-btn class="gotoMyPage" text color="primary" @click="gotoMypage">マイページ</v-btn>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="6" md="4" lg="3">
-            <v-card>
-              <v-card-title>表示する猫を絞り込む</v-card-title>
-              <v-card-text>
-                <v-form>
-                  <!-- 猫の色 -->
-                  <v-select
-                    v-model="selectedColor"
-                    :items="colors"
-                    label="猫の色"
-                    dense
-                  ></v-select>
-                  <!-- 猫の柄 -->
-                  <v-select
-                    v-model="selectedPattern"
-                    :items="patterns"
-                    label="猫の柄"
-                    dense
-                  ></v-select>
-                  <!-- 猫の種類 -->
-                  <v-select
-                    v-model="selectedType"
-                    :items="types"
-                    label="猫の種類"
-                    dense
-                  ></v-select>
-                  <!-- 猫の年齢 -->
-                  <v-select
-                    v-model="selectedChildAdult"
-                    :items="ages"
-                    label="猫の年齢"
-                    dense
-                  ></v-select>
-                  <!-- 耳のカット -->
-                  <v-select
-                    v-model="selectedEarCut"
-                    :items="earCuts"
-                    label="耳のカット"
-                    dense
-                  ></v-select>
-                  <!-- 首輪 -->
-                  <v-select
-                    v-model="selectedChoker"
-                    :items="chokers"
-                    label="首輪"
-                    dense
-                  ></v-select>
-                  <!-- 新規かどうか -->
-                  <v-select
-                    v-model="isNew"
-                    :items="isNewOptions"
-                    label="最近発見されたばかり"
-                    dense
-                  ></v-select>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="primary" @click="refreshMap">絞り込み</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col cols="12" sm="12" md="8" lg="9">
-              <v-card-text>
-                <!-- ここにマップコンポーネントを挿入 -->
-                <GMapMap
-                    :center= "{ lat: 35.6764, lng: 139.6500 }"
-                    :zoom="13"
-                    map-type-id="roadmap"
-                    style="width: 75vw; height: 750px"
-                ><GMapMarker
-                  v-for="(m, index) in markers"
-                  :key="index"
-                  :position= m.position
-                  :icon= "{
-                      url: m.imageURL,
-                      scaledSize: {width: 100, height: 100},
-                      anchor: {x: 50, y: 50}
-                  }"
-                  :clickable="true"
-                  @click="goToCatDetailPage()"
-                  class="cat"
-                /></GMapMap>
-              </v-card-text>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="6" md="4" lg="3">
-            <v-btn class="gotoCatMap" color="primary" @click="gotoCatMap">猫を投稿</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+<template>  
+  <div class="loading">
+    <div class="circle light"></div>
+    <div class="circle dark"></div>
+    <div class="branding"></div>
+  </div>
+
+  <div class="gotoMyPage">
+    <button @click.prevent="gotoMypage">マイページ</button>
+  </div>
+
+  <div class="home-page">
+    <div class="form-wrapper">
+    <div class="form-section">
+      <h2 class="form-title">表示する猫を絞り込む</h2>
+      <form>
+        <p>最近発見されたばかり</p>
+        <select v-model="isNew">
+          <option value="">指定なし</option>
+          <option value="True">最近発見されたばかり</option>
+        </select>
+
+        <p>猫の色</p>
+        <select v-model="selectedColor">
+          <option value="">指定なし</option>
+          <option value="白">白</option>
+          <option value="黒">黒</option>
+          <option value="茶">茶</option>
+          <option value="灰">灰</option>
+          <option value="赤">赤</option>
+          <option value="橙">橙</option>
+          <option value="その他">その他</option>
+        </select>
+
+        <p>猫の柄</p>
+        <select v-model="selectedPattern">
+          <option value="">指定なし</option>
+          <option value="無地">無地</option>
+          <option value="縦縞">縦縞</option>
+          <option value="横縞">横縞</option>
+          <option value="斑点">斑点</option>
+          <option value="その他">その他</option>
+        </select>
+
+        <p>猫の種類</p>
+        <select v-model="selectedType">
+          <option value="">指定なし</option>
+          <option value="三毛">三毛</option>
+          <option value="鯖">鯖</option>
+          <option value="マンチカン">マンチカン</option>
+          <option value="アメリカンショートヘアー">アメリカンショートヘアー</option>
+          <option value="スコティッシュフォールド">スコティッシュフォールド</option>
+          <option value="ラグドール">ラグドール</option>
+          <option value="ブリティッシュショートヘア">ブリティッシュショートヘア</option>
+          <option value="その他">その他</option>
+        </select>
+
+        <p>猫の年齢</p>
+        <select v-model="selectedChildAdult">
+          <option value="">指定なし</option>
+          <option value="子猫">子猫</option>
+          <option value="成猫">成猫</option>
+        </select>
+
+        <p>耳のカット</p>
+        <select v-model="selectedEarCut">
+          <option value="">指定なし</option>
+          <option value="あり">あり</option>
+          <option value="なし">なし</option>
+        </select>
+
+        <p>首輪</p>
+        <select v-model="selectedChoker">
+          <option value="">指定なし</option>
+          <option value="あり">あり</option>
+          <option value="なし">なし</option>
+        </select>
+        </form>
+        <center>
+          <button type="button" class="narrow-button" @click="refreshMap">絞り込み</button>
+        </center>
+      
+    </div>
+    </div>
+    <div class="map-wrapper">
+    <div class="map-section">
+      <div class="form-group">
+        <label for="map-container" class="map-container"></label>
+        <GMapMap
+      :center= "{ lat: 35.6764, lng: 139.6500 }"
+      :zoom="15"
+      map-type-id="roadmap"
+      style="width: 50vw; height: 500px"
+  >
+  <GMapMarker
+      v-for="(m, index) in markers"
+      :key="index"
+      :position= m.position
+      :icon= "{
+          url: m.imageURL,
+          scaledSize: {width: 80, height: 80},
+          anchor: {x: 50, y: 50}
+      }"
+      :clickable="true"
+      @click="goToCatDetailPage(m.id)"
+      class="cat"
+    />
+  </GMapMap>
+      </div>
+    </div></div>
+  </div>
+  <div class="gotoCatMap">
+      <form method="post">
+        
+        <button type="submit" class="catDiscover" @click.prevent="gotoCatMap" style="font-size: 20px;">見つけた猫を投稿</button>
+      </form>
+  </div>
 </template>
 
 
@@ -285,7 +299,9 @@ width: 170px; /* ラベルの横幅を一定にして":"の位置を揃える */
 text-align: right;
 margin-right: 10px;
 }
-
+.catDiscover {
+  width: 80%;
+}
 .map-container {
 float: right; /* 右寄せ */
 width: 60%; /* マップの幅を調整 */
