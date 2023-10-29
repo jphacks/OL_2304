@@ -3,12 +3,14 @@ import App from './App.vue'
 import router from './router'
 import { mapkey } from './googlemapkey'
 import VueGoogleMaps from '@fawmi/vue-google-maps'
+import vuetify from './plugins/vuetify'
 
 
 
 const app = createApp(App);
 
 app.use(router);
+app.use(vuetify);
 app.use(VueGoogleMaps, {
   load: {
     key: mapkey,
