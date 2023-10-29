@@ -28,8 +28,11 @@
       </GMapMap>
         </center>
       </div>
+      <div class="text-container">
+        <p2 style="text-align: center; font-size: 28px;">近隣で発見された猫から選ぶ</p2>
+      </div>
       <div class="cat-card">
-        <p2 style="text-align: center;">近隣で発見された猫から選ぶ</p2>
+        <!-- <p2 style="text-align: center;">近隣で発見された猫から選ぶ</p2> -->
         <div class="cat-images">
           <br>
           <div v-for= "(m, index) in catImages" :key="index"  class="cat-image-container">
@@ -95,7 +98,7 @@ export default {
       window.kuwagloballat = this.lat
       window.kuwagloballongi = this.lng
 
-      this.loadNearbyCats(this.lat, this.lng)
+      this.loadNearbyCats(event.latLng.lat(), event.latLng.lng())
 
     },
 
@@ -109,13 +112,15 @@ export default {
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       const d = R * c;
+      console.log(lat1, lon1, lat2, lon2, d);
+      console.log('aaa');
       return d; // returns distance in km
     },
 
     async loadNearbyCats(lat, lng) {
       const allCats = await this.fetchData();
       this.catImages = allCats
-        .filter(cat => this.calculateDistance(lat, lng, cat.latitude, cat.longitude) <= 1)
+        .filter(cat => this.calculateDistance(lat, lng, parseFloat(cat.latitude), parseFloat(cat.longitude)) <= 1)
         .map(cat => ({url:cat.imageurl, id:cat.id}));
       console.log(this.catImages);
     }, 
@@ -160,13 +165,13 @@ a {
 }
 .map-container {
   width: 100%;
-  margin-top: 1px;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
-
 .cat-card {
   margin-top: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 0px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   background-color: white; /* 背景色を白に設定 */
@@ -224,4 +229,13 @@ a {
     height: 100px; /* 高さを調整 */
     font-size: 30px; /* フォントサイズを調整 */
 }
+
+.text-container {
+  text-align: center;
+  border: 1px solid #ccc; /* ボーダーを追加する場合 */
+  padding: 5px; /* 必要に応じて余白を追加 */
+  background-color: #f9f9f9; /* 背景色を設定 */;
+  margin-bottom: -25px;
+}
+
 </style>
