@@ -1,10 +1,10 @@
 <template>
-
+<!-- 
   <div class="loading">
     <div class="circle light"></div>
     <div class="circle dark"></div>
     <div class="branding"></div>
-  </div>
+  </div> -->
 
   <div class="uploaded">
     <form method="post">
@@ -29,7 +29,7 @@
         </center>
       </div>
       <div class="cat-card">
-        <p1>近隣で発見された猫から選ぶ</p1>
+        <p2 style="text-align: center;">近隣で発見された猫から選ぶ</p2>
         <div class="cat-images">
           <br>
           <div v-for= "(m, index) in catImages" :key="index"  class="cat-image-container">
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <button type="button" class="gotoUploadNewCat" @click.prevent="gotoUploadNewCat">上記にいない猫を登録する</button>
+      <button type="button" class="gotoUploadNewCat-center-button" @click.prevent="gotoUploadNewCat">上記にいない猫を登録する</button>
     </form>
   </div>
 
@@ -160,6 +160,7 @@ a {
 }
 .map-container {
   width: 100%;
+  margin-top: 1px;
 }
 
 .cat-card {
@@ -169,9 +170,18 @@ a {
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   background-color: white; /* 背景色を白に設定 */
-  position: absolute; /* テキストを絶対位置に配置 */
-  top: 900px; /* 上からの位置 */
-  left: 0px; /* 左からの位置 */
+  /* margin-bottom: 20px;
+  display: flex;
+  align-items: center; */
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+}
+.gotoUploadNewCat-center-button {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 20%;
 }
 
 .cat-images {
@@ -183,7 +193,6 @@ a {
 .cat-image-container {
   flex: 0 0 calc(16.666% - 20px); /* 画像を6列に分けるための設定。20pxはgapの値です */
 }
-
 .cat-image {
   max-width: 100%;
   height: auto;
