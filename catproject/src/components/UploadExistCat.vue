@@ -168,7 +168,6 @@ a {
   align-items: center;
   justify-content: center;
   height: 40vh;
-  /* 画面の高さいっぱいに表示 */
 }
 
 table {
