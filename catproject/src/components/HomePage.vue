@@ -112,7 +112,7 @@
   <div class="gotoCatMap">
       <form method="post">
         
-        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoCatMap">猫を投稿</button>
+        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoCatMap">見つけた猫を投稿</button>
       </form>
     </div>
 </template>
