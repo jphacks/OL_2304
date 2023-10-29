@@ -109,10 +109,16 @@
       </div>
     </div></div>
   </div>
-  <div class="gotoCatMap">
+  <!-- <div class="gotoCatMap">
       <form method="post">
         
         <button type="submit" class="catDiscover" @click.prevent="gotoCatMap" style="font-size: 20px;">見つけた猫を投稿</button>
+      </form>
+  </div> -->
+  <div class="gotoCatMap">
+      <form method="post">
+        <button type="submit" class="catDiscover" @click.prevent="gotoCatMap" style="font-size: 20px;">見つけた猫を投稿</button>
+        <img src="https://1.bp.blogspot.com/-M5qxrnCBQVo/UnyF1sAe3iI/AAAAAAAAaVE/u1DFgIXrrl4/s800/nikukyu_cha.png" alt="肉球" style="width: 60px; height: 60px;">
       </form>
   </div>
 </template>
