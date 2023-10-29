@@ -31,9 +31,9 @@
       <div class="cat-card">
         <p1>近隣で発見された猫から選ぶ</p1>
         <div class="cat-images">
-          <br> <!-- ここで改行を挿入 -->
-          <div v-for="image in catImages" :key="image" class="cat-image-container">
-            <img :src="image" alt="猫の画像" class="cat-image"/>
+          <br>
+          <div v-for= "(m, index) in catImages" :key="index"  class="cat-image-container">
+            <img :src="m.url" alt="猫の画像" class="cat-image" @click.prevent="gotoUploadExistCat(m.id)"/>
           </div>
         </div>
       </div>
@@ -72,6 +72,13 @@ export default {
   },
 
   methods: {
+
+    gotoUploadExistCat(id) {
+      window.selectedCatID = id
+      this.$router.push({ name: 'UploadExistCat' });
+      
+    },
+
     gotoUploadNewCat() {
       this.$router.push({ name: 'UploadNewCat' });
     },
@@ -109,9 +116,9 @@ export default {
       const allCats = await this.fetchData();
       this.catImages = allCats
         .filter(cat => this.calculateDistance(lat, lng, cat.latitude, cat.longitude) <= 1)
-        .map(cat => cat.imageurl);
+        .map(cat => ({url:cat.imageurl, id:cat.id}));
       console.log(this.catImages);
-    },
+    }, 
 
     async fetchData() {
       const snapshot = await getDocs(collectionRef);
@@ -120,7 +127,8 @@ export default {
         return {
             ...docData,
             latitude: parseFloat(docData.latitude),
-            longitude: parseFloat(docData.longitude)
+            longitude: parseFloat(docData.longitude),
+            id: doc.id
         };
       });
       return data; // 返り値を追加
