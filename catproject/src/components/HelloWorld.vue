@@ -21,22 +21,20 @@
       <button @click="handleRegisterForm" class="btn btn-primary btn-block btn-large">新規登録</button>
     </div>
 
-    <create></create>
-
 
 </template>
 
 <script>
 import { auth } from "@/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import create from './PostCat.vue'
+//import create from './PostCat.vue'
 
 
 
 
 export default {
   components:{
-    create,
+    //create,
   },
   name: 'HelloWorld',
   data() {
