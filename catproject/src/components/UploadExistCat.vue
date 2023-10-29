@@ -46,6 +46,7 @@
       </tr>
     </table>
   </div>
+  <br><br>
 
   <div class="uploaded">
     <form method="post">
