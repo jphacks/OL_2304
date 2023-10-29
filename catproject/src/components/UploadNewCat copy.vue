@@ -1,0 +1,183 @@
+<template>
+  <div class="upload-section">
+    <form @submit.prevent="submitForm">
+      <p>新規猫登録</p>
+      <!-- 画像アップロード部分 -->
+      <div class="image-upload">
+        <label for="catImage">
+          <img src="./assets/cat1-1.jpg" alt="Upload Image" />
+        </label>
+        <input type="file" id="catImage" ref="fileInput" @change="previewImage">
+      </div>
+      
+      <p>各項目を選択してください</p>
+      <!-- 猫の色 -->
+      <div class="form-group">
+        <label for="catColor" class="form-label">色: </label>
+        <select id="catColor" v-model="selectedColor" class="custom-dropdown">
+          <option value="白">白</option>
+          <option value="黒">黒</option>
+          <option value="茶">茶</option>
+          <option value="灰">灰</option>
+        </select>
+      </div>
+      <!-- 猫の柄選択 -->
+      <div class="form-group">
+        <label for="catPattern" class="form-label">柄: </label>
+        <select id="catPattern" v-model="selectedType" class="custom-dropdown">
+          <option value="無地">無地</option>
+          <option value="縦縞">縦縞</option>
+          <option value="横縞">横縞</option>
+          <option value="斑点">斑点</option>
+        </select>
+      </div>
+      <!-- 種類の選択 -->
+      <div class="form-group">
+        <label for="catType" class="form-label">種類: </label>
+        <select id="catType" v-model="selectedType" class="custom-dropdown">
+          <option value="三毛">三毛</option>
+          <option value="鯖">鯖</option>
+          <option value="マンチカン">マンチカン</option>
+          <option value="アメリカンショートヘアー">アメリカンショートヘアー</option>
+        </select>
+      </div>
+      <!-- 子・大人の選択 -->
+      <div class="form-group">
+        <label for="catChildAdult" class="form-label">子猫/成猫: </label>
+        <select id="catChildAdult" v-model="selectedType" class="custom-dropdown">
+          <option value="子猫">子猫</option>
+          <option value="成猫">成猫</option>
+          <option value="分からない">分からない</option>
+        </select>
+      </div>
+      <!-- 耳カットの選択 -->
+      <div class="form-group">
+        <label for="catChoker" class="form-label">耳カット: </label>
+        <select id="catEarCut" v-model="selectedType" class="custom-dropdown">
+          <option value="あり">あり</option>
+          <option value="なし">なし</option>
+          <option value="分からない">分からない</option>
+        </select>
+      </div>
+      <!-- 首輪 -->
+      <div class="form-group">
+        <label for="catChoker" class="form-label">首輪: </label>
+        <select id="catChoker" v-model="selectedType" class="custom-dropdown">
+          <option value="あり">あり</option>
+          <option value="なし">なし</option>
+          <option value="分からない">分からない</option>
+        </select>
+      </div>
+      <!-- <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoFinishUpload">投稿</button>     -->
+      <button type="button" class="submitButton" @click.prevent="gotoFinishUpload">投稿</button>
+    </form>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      selectedType: '',
+      selectedColor: '',
+      uploadedImage: '',
+      selectedOption: '' // プルダウンの初期値
+    }
+  },
+  methods: {
+    submitForm() {
+      console.log("Form Submitted!");
+      // ここでデータをAPIやバックエンドに送信する処理を記述
+    },
+    previewImage() {
+      const fileInput = this.$refs.fileInput;
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.uploadedImage = e.target.result;
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    },
+    gotoFinishUpload() {
+      this.$router.push({ name: 'FinishUpload' });
+    }
+  }
+}
+</script>
+<!-- <style scoped>
+/* スタイルの定義はこちら */
+.form-group {
+  margin-bottom: 20px;
+}
+.image-upload img {
+  width: 100px; /* サイズ調整 */
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.image-upload input[type="file"] {
+  display: none;
+}
+
+.catChoker {
+  width: 200px; /* プルダウンメニューの幅を設定 */
+  height: 40px; /* プルダウンメニューの高さを設定 */
+  font-size: 16px; /* フォントサイズを設定 */
+  text-align: right; /* テキストを左揃えにする */
+}
+</style> -->
+<style scoped>
+.image-upload img {
+  width: 100px; /* サイズ調整 */
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* スタイルの定義はこちら */
+.form-group {
+  /* margin-bottom: 20px;
+  display: flex;
+  align-items: center; */
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.custom-dropdown {
+  text-align: left;
+  width: 220px; /* すべてのプルダウンの横幅を揃える */
+}
+.form-label {
+  width: 370px; /* ラベルの横幅を一定にして":"の位置を揃える */
+  text-align: right;
+  margin-right: 10px;
+}
+.submitButton {
+    background: linear-gradient(to bottom, #009EFF 0px, #0075BC 100%) repeat scroll 0 0 transparent;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 0 #E6F5FF inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 10px 25px;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    width: 25%;
+}
+.image-upload img {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.image-upload input[type="file"] {
+  display: none;
+}
+select {
+  text-align: center;
+  margin-left: 10px;
+}
+</style>
