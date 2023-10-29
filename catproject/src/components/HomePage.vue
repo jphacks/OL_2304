@@ -112,9 +112,9 @@
   <div class="gotoCatMap">
       <form method="post">
         
-        <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoCatMap">見つけた猫を投稿</button>
+        <button type="submit" class="catDiscover" @click.prevent="gotoCatMap" style="font-size: 20px;">見つけた猫を投稿</button>
       </form>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -258,7 +258,9 @@ width: 170px; /* ラベルの横幅を一定にして":"の位置を揃える */
 text-align: right;
 margin-right: 10px;
 }
-
+.catDiscover {
+  width: 80%;
+}
 .map-container {
 float: right; /* 右寄せ */
 width: 60%; /* マップの幅を調整 */
