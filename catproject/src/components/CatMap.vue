@@ -95,7 +95,7 @@ export default {
       window.kuwagloballat = this.lat
       window.kuwagloballongi = this.lng
 
-      this.loadNearbyCats(this.lat, this.lng)
+      this.loadNearbyCats(event.latLng.lat(), event.latLng.lng())
 
     },
 
@@ -109,13 +109,15 @@ export default {
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       const d = R * c;
+      console.log(lat1, lon1, lat2, lon2, d);
+      console.log('aaa');
       return d; // returns distance in km
     },
 
     async loadNearbyCats(lat, lng) {
       const allCats = await this.fetchData();
       this.catImages = allCats
-        .filter(cat => this.calculateDistance(lat, lng, cat.latitude, cat.longitude) <= 1)
+        .filter(cat => this.calculateDistance(lat, lng, parseFloat(cat.latitude), parseFloat(cat.longitude)) <= 1)
         .map(cat => ({url:cat.imageurl, id:cat.id}));
       console.log(this.catImages);
     }, 
