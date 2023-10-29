@@ -153,7 +153,7 @@ td {
     text-shadow: 0 1px rgba(0, 0, 0, 0.3);
     width: 25%;
     position: absolute; /* テキストを絶対位置に配置 */
-    top: 1200px; /* 上からの位置 */
-    left: 580px; /* 左からの位置 */ 
+    top: 1000px; /* 上からの位置 */
+    left: 37%; /* 左からの位置 */ 
 }
 </style>
