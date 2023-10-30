@@ -64,6 +64,7 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { onMounted, ref } from 'vue';
 import { uploadCat } from '../CatFirebase.js'
 import { useRouter } from 'vue-router'
+import { auth } from '@/firebase'
 
 export default {
 
@@ -120,7 +121,7 @@ export default {
         comment: comment.value,
         latitude: latitude.value,
         longitude: longitude.value,
-        userId: 'testID',//TODO
+        userId: auth.currentUser.uid,
         isNew: 'False'
       });
       gotoFinishUpload();

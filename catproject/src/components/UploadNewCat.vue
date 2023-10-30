@@ -102,6 +102,7 @@
 import { ref } from 'vue'
 import { uploadCat } from '../CatFirebase.js'
 import { useRouter } from 'vue-router'
+import { auth } from '@/firebase'
 export default {
   name: 'UploadNewCat',
   methods: {
@@ -155,7 +156,7 @@ export default {
         comment: comment.value,
         latitude: latitude.value,
         longitude: longitude.value,
-        userId: 'testID',//TODO
+        userId: auth.currentUser.uid,
         isNew: 'True'
       })
       gotoFinishUpload()
