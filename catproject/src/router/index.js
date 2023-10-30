@@ -1,21 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import Home from '../views/Home.vue'
-import HelloWorld from '../components/HelloWorld.vue' 
+import StartPage from '../components/StartPage.vue'
 import RegisterForm from '../components/RegisterForm.vue' 
 import MyPage from '../components/MyPage.vue';
 import FinishUpload from '../components/FinishUpload.vue'
-import UploadExistCat from '../components/UploadExistCat.vue'
-import CatMap from '../components/CatMap.vue'
+import UploadExistingCat from '../components/UploadExistingCat.vue'
+import PostingScreen from '../components/PostingScreen.vue'
 import CatProfile from '../components/CatProfile.vue'
 import HomePage from '../components/HomePage.vue'
 import UploadNewCat from '../components/UploadNewCat.vue'
-import UnSubscribed from '../components/UnSubscribed.vue'
+import UnSubscribe from '../components/UnSubscribe.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
+    name: 'StartPage',
+    component: StartPage
   },
   {
     path: '/register-form',
@@ -33,14 +32,14 @@ const routes = [
     component: FinishUpload
   },
   {
-    path: '/upload-exist-cat',
-    name: 'UploadExistCat',
-    component: UploadExistCat
+    path: '/upload-existing-cat',
+    name: 'UploadExistingCat',
+    component: UploadExistingCat
   },
   {
-    path: '/cat-map',
-    name: 'CatMap',
-    component: CatMap
+    path: '/posting-screen',
+    name: 'PostingScreen',
+    component: PostingScreen
   },
   {
     path: '/cat-profile',
@@ -58,9 +57,9 @@ const routes = [
     component: UploadNewCat
   },
   {
-    path: '/unsubscribed',
-    name: 'UnSubscribed',
-    component: UnSubscribed
+    path: '/unsubscribe',
+    name: 'UnSubscribe',
+    component: UnSubscribe
   }
   
 ]

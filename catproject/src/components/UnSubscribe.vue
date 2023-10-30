@@ -6,25 +6,25 @@
       <div class="branding"></div>
     </div>
 
-    <div class="unsubscribed">
+    <div class="unsubscribe">
       <form method="post">
         <p>
             退会画面
         </p>
-        <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoHelloWorld">退会</button>
+        <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoStartPage">退会</button>
         </form>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'UnSubscribed',
+  name: 'UnSubscribe',
   props: {
     msg: String
   },
   methods: {
-    gotoHelloWorld() {
-      this.$router.push({ name: 'HelloWorld' });
+    gotoStartPage() {
+      this.$router.push({ name: 'StartPage' });
     }
   }
 }

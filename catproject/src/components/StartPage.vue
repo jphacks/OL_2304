@@ -34,7 +34,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 export default {
   components:{
   },
-  name: 'HelloWorld',
+  name: 'StartPage',
   data() {
     return {
       email: "",

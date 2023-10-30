@@ -151,7 +151,7 @@ export default {
 
   },
 
-  name: 'UploadExist',
+  name: 'UploadExisting',
   props: {
     msg: String
   },

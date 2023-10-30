@@ -36,7 +36,7 @@
         <div class="cat-images">
           <br>
           <div v-for= "(m, index) in catImages" :key="index"  class="cat-image-container">
-            <img :src="m.url" alt="猫の画像" class="cat-image" @click.prevent="gotoUploadExistCat(m.id)"/>
+            <img :src="m.url" alt="猫の画像" class="cat-image" @click.prevent="gotoUploadExistingCat(m.id)"/>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ const db = getFirestore();
 const collectionRef = collection(db, 'TestCat');
 
 export default {
-  name: 'CatMap',
+  name: 'PostingScreen',
   props: {
     msg: String
   },
@@ -75,9 +75,9 @@ export default {
 
   methods: {
 
-    gotoUploadExistCat(id) {
+    gotoUploadExistingCat(id) {
       window.selectedCatID = id
-      this.$router.push({ name: 'UploadExistCat' });
+      this.$router.push({ name: 'UploadExistingCat' });
       
     },
 
