@@ -11,8 +11,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+
+
 //新しい猫が現れたとき、その猫の半径１キロメートル以内にいるユーザーにメールを送信する
-// TODO: ちゃんとユーザーの距離とか取れるようにする。いらないファイル消す
 exports.sendMailOnNewCat = functions.firestore.document("TestCat/{catId}")
     .onCreate(async (snap, context) => {
       const catData = snap.data();
