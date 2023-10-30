@@ -4,9 +4,6 @@ import { firebaseApp } from "./firebase";
 import { v4 as uuidv4 } from 'uuid';
 
 //猫の情報をアップロードする関数。filedata(写真)だけじゃなくて設計に従って猫のIDとか柄とかも入れる
-//addDoc(collection(dbfirestore, "test"), {
-//    username: "Ada",
-//  });みたいな感じでfirebaseにデータを送れる
 export const uploadCat=(catdata)=>{
   const metadata={
     contentType: 'image/jpeg',
@@ -45,18 +42,6 @@ export const uploadCat=(catdata)=>{
       console.error('Upload failed', error);
     });
 }
-
-//猫の情報を持ってくる関数。これはまだいじってないので、ちゃんと動かすには色々変える必要がある
-/*export const downloadCat=async()=>{
-  const data =[]
-  const querySnapshot = await getDocs(collection(getFirestore(firebaseApp), "test"))
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    data.push(doc.data())
-  })
-  return data
-}*/
-
 
 export const downloadAndLogCat = async () => {
   try {
@@ -126,31 +111,3 @@ export const searchCat = async (filter) => {
     });
     return data;
   };
-
-// 元に戻すには以下を削除
-export const downloadCatsNearLocation = async (lat, lng) => {
-  try {
-    const collectionRef = collection(getFirestore(firebaseApp), "TestCat");
-    // 緯度経度の範囲を設定
-    const range = 0.009; // これは約1km
-
-    const queryRef = query(
-      collectionRef,
-      where("latitude", ">=", lat - range),
-      where("latitude", "<=", lat + range),
-      where("longitude", ">=", lng - range),
-      where("longitude", "<=", lng + range)
-    );
-
-    const querySnapshot = await getDocs(queryRef);
-    const catsData = [];
-    querySnapshot.forEach((doc) => {
-      catsData.push(doc.data());
-    });
-    return catsData;
-  } catch (error) {
-    console.error('Download failed', error);
-    return [];
-  }
-};
-// ...
