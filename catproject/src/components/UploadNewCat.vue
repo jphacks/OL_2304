@@ -103,10 +103,13 @@ import { ref } from 'vue'
 import { uploadCat } from '../CatFirebase.js'
 import { useRouter } from 'vue-router'
 import { auth } from '@/firebase'
+<<<<<<< HEAD
 
 import { db } from '@/firebase'
 
 
+=======
+>>>>>>> 9405d386b1e43508097a795d00d319e350422a82
 export default {
   name: 'UploadNewCat',
   methods: {
@@ -119,15 +122,13 @@ export default {
     const router = useRouter()
     const uploadedImage = ref(null)
     const image = ref(null)
-    const selectedColor = ref('白')
-    const selectedPattern = ref('その他')
-    const selectedBreed = ref('三毛')
-    const selectedChildAdult = ref('成猫')
-    const selectedEarCut = ref('なし')
-    const selectedCollar = ref('なし')
+    const selectedColor = ref('')
+    const selectedPattern = ref('')
+    const selectedBreed = ref('')
+    const selectedChildAdult = ref('')
+    const selectedEarCut = ref('')
+    const selectedCollar = ref('')
     const comment = ref('')
-    //const latitude = ref('35.6764')//TODO
-    //const longitude = ref('139.6500')
     const latitude = ref(window.kuwagloballat)
     const longitude = ref(window.kuwagloballongi)
     const errorMessage = ref('')
@@ -162,7 +163,10 @@ export default {
         comment: comment.value,
         latitude: latitude.value,
         longitude: longitude.value,
+<<<<<<< HEAD
         //userId: 'testID',//TODO
+=======
+>>>>>>> 9405d386b1e43508097a795d00d319e350422a82
         userId: auth.currentUser.uid,
         isNew: 'True'
       })
@@ -222,11 +226,7 @@ export default {
 </script>
 
 <style scoped>
-/* スタイルの定義はこちら */
 .form-group {
-  /* margin-bottom: 20px;
-  display: flex;
-  align-items: center; */
   margin-bottom: 30px;
   display: flex;
   align-items: center;

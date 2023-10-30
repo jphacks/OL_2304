@@ -109,12 +109,6 @@
       </div>
     </div></div>
   </div>
-  <!-- <div class="gotoCatMap">
-      <form method="post">
-        
-        <button type="submit" class="catDiscover" @click.prevent="gotoCatMap" style="font-size: 20px;">見つけた猫を投稿</button>
-      </form>
-  </div> -->
   <div class="gotoCatMap">
       <form method="post">
         <button type="submit" class="catDiscover" @click.prevent="gotoCatMap" style="font-size: 20px;">見つけた猫を投稿</button>
@@ -241,11 +235,10 @@ export default {
       this.$router.push({ name: 'CatProfile' });
     },
   },
-}//q:なぜv-modelが更新されないの
-//a:https://qiita.com/ryo2132/items/1b0b2b0e2e2e2e2e2e2e
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 h3 {
 margin: 40px 0 0;
@@ -267,6 +260,7 @@ width: 120px;
 display: flex;
 align-items: center;
 }
+<<<<<<< HEAD
 .gotoCatMap {/*投稿ボタン*/
   display: block;
   margin-top: 275px; /* ここを調整 */
@@ -279,6 +273,13 @@ align-items: center;
   text-align: center;
   margin-left: 750px;
   width: 30%;
+=======
+.gotoMyPage {
+  position: absolute;
+  top: -30px;
+  right: 0px;
+  width: 200px;
+>>>>>>> 9405d386b1e43508097a795d00d319e350422a82
 }
 .gotoCatMap {/*投稿ボタン*/
 width: 300px;
@@ -289,9 +290,6 @@ top: 600px; /* 上からの位置 */
 left: 120px; /* 左からの位置 */ 
 }
 .form-group {
-/* margin-bottom: 20px;
-display: flex;
-align-items: center; */
 margin-bottom: 30px;
 display: flex;
 align-items: center;
@@ -349,7 +347,6 @@ height: 400px; /* マップの高さを調整 */
 }
 
 .map-section {
-  /* flex-grow: 1; */
   display: flex;
   justify-content: center; /* 横方向（水平方向）に中央に配置 */
   align-items: center; /* 縦方向（垂直方向）に中央に配置 */

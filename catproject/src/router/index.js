@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HelloWorld from '../components/HelloWorld.vue' 
 import RegisterForm from '../components/RegisterForm.vue' 
 import MyPage from '../components/MyPage.vue';
-import Register from '../components/Register.vue'
 import FinishUpload from '../components/FinishUpload.vue'
 import UploadExistCat from '../components/UploadExistCat.vue'
 import CatMap from '../components/CatMap.vue'
@@ -27,11 +26,6 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: MyPage
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
   },
   {
     path: '/finishupload',
