@@ -24,6 +24,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { auth } from '@/firebase';
+import { doc, setDoc, getFirestore } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 export default {
@@ -42,6 +43,15 @@ export default {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
         await updateProfile(userCredential.user, { displayName: username.value });
+
+        //firestoreにユーザーidノードとその直下にメールアドレスとユーザーネームを保存
+        const db = getFirestore();
+        await setDoc(doc(db, 'users', userCredential.user.uid), {
+          email: email.value,
+          username: username.value,
+        });
+
+
         router.push({ name: 'HomePage' });
       } catch (err) {
         error.value = err.message;
