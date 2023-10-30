@@ -109,8 +109,6 @@ export default {
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       const d = R * c;
-      console.log(lat1, lon1, lat2, lon2, d);
-      console.log('aaa');
       return d; // returns distance in km
     },
 
