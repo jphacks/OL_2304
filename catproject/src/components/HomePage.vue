@@ -109,9 +109,9 @@
       </div>
     </div></div>
   </div>
-  <div class="gotoCatMap">
+  <div class="gotoPostingScreen">
       <form method="post">
-        <button type="submit" class="catDiscover" @click.prevent="gotoCatMap" style="font-size: 20px;">見つけた猫を投稿</button>
+        <button type="submit" class="catDiscover" @click.prevent="gotoPostingScreen" style="font-size: 20px;">見つけた猫を投稿</button>
         <img src="https://1.bp.blogspot.com/-M5qxrnCBQVo/UnyF1sAe3iI/AAAAAAAAaVE/u1DFgIXrrl4/s800/nikukyu_cha.png" alt="肉球" style="width: 60px; height: 60px;">
       </form>
   </div>
@@ -192,8 +192,8 @@ export default {
     gotoMypage() {
       this.$router.push({ name: 'MyPage' });
     },
-    gotoCatMap() {
-      this.$router.push({ name: 'CatMap' });
+    gotoPostingScreen() {
+      this.$router.push({ name: 'PostingScreen' });
     },
     goToCatDetailPage(id) {
       window.selectedCatID = id;
@@ -231,7 +231,7 @@ align-items: center;
   right: 0px;
   width: 200px;
 }
-.gotoCatMap {/*投稿ボタン*/
+.gotoPostingScreen {/*投稿ボタン*/
 width: 300px;
 margin-left: 500px;
 align-items: center;

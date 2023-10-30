@@ -11,7 +11,7 @@
   <div class="login">
     <form method="post">
       <button type="submit" class="btn btn-primary btn-block btn-large" @click.prevent="gotoHomePage">ホームに戻る</button>
-      <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoUnSubscribed">退会手続き</button>
+      <button type="button" class="btn btn-primary btn-block btn-large" @click.prevent="gotoUnSubscribe">退会手続き</button>
       </form>
   </div>
 </template>
@@ -47,8 +47,8 @@ methods: {
     // 認証が成功したら、以下のようにMyPageに遷移します。
     this.$router.push({ name: 'HomePage' });
   },
-  gotoUnSubscribed() {
-    this.$router.push({ name: 'UnSubscribed' });
+  gotoUnSubscribe() {
+    this.$router.push({ name: 'UnSubscribe' });
   }
 }
 }
