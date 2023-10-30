@@ -82,8 +82,8 @@ export default {
     const isNew = ref('');
     const postedAt = ref('');
     const comment = ref('');
-    const latitude = ref('');
-    const longitude = ref('');
+    const latitude = ref(window.kuwagloballat);
+    const longitude = ref(window.kuwagloballongi);
     const errorMessage = ref('')
 
     onMounted(async () => {
