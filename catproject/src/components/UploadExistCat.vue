@@ -97,8 +97,6 @@ export default {
       isNew.value = docSnap.data().isNew;
       postedAt.value = docSnap.data().postedAt;
       comment.value = docSnap.data().comment;
-      latitude.value = docSnap.data().latitude;
-      longitude.value = docSnap.data().longitude;
     });
 
      const gotoFinishUpload = () => {
