@@ -1,7 +1,7 @@
 # 猫がにゃんさか見つかる野良猫マップ
 
+https://github.com/jphacks/OL_2304/assets/50389195/e9ce5c86-0b2f-44d9-8721-f2b1c0394a22
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2023/07/JPHACKS2023_ogp.png)](https://www.youtube.com/watch?v=yYRQEdfGjEg)
 
 ## 製品概要
 
