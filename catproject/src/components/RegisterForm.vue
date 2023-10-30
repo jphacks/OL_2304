@@ -44,7 +44,7 @@ export default {
         const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
         await updateProfile(userCredential.user, { displayName: username.value });
 
-        //firestoreにユーザーidノードとその直下にメールアドレスとユーザーネームを保存
+        //firestoreにユーザーidノードとその直下にメールアドレスとユーザーネームを保存した
         const db = getFirestore();
         await setDoc(doc(db, 'users', userCredential.user.uid), {
           email: email.value,

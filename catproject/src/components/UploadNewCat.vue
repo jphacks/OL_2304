@@ -104,6 +104,8 @@ import { uploadCat } from '../CatFirebase.js'
 import { useRouter } from 'vue-router'
 import { auth } from '@/firebase'
 
+import { db } from '@/firebase'
+
 
 export default {
   name: 'UploadNewCat',
@@ -144,7 +146,7 @@ export default {
     }
 
 
-    const submitForm = () => {
+    const submitForm = async () => {
       if (!image.value || !selectedColor.value || !selectedPattern.value || !selectedBreed.value || !selectedChildAdult.value || !selectedEarCut.value || !selectedCollar.value) {
         errorMessage.value = '未入力の項目があります'
         return
@@ -164,6 +166,38 @@ export default {
         userId: auth.currentUser.uid,
         isNew: 'True'
       })
+
+      console.log("猫の緯度",latitude.value)
+      console.log("猫の経度",longitude.value)
+
+
+      //firebaseのfirestoreから全usersの情報を取得
+
+      // 全ユーザーの緯度と経度をFirebaseから取得
+      try {
+        const usersRef = db.collection('users');
+        const snapshot = await usersRef.get();
+        const userLocations = [];
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          if (data.latitude && data.longitude) {
+            userLocations.push({ id: doc.id, latitude: data.latitude, longitude: data.longitude });
+          }
+        });
+
+        // ここで取得したユーザーの位置情報を使って何か処理を行う
+        console.log('全ユーザーの緯度と経度:', userLocations);
+      } catch (error) {
+        console.error('ユーザーの位置情報の取得に失敗しました:', error);
+      }
+
+
+
+
+
+
+
+
       gotoFinishUpload()
     }
         return {
