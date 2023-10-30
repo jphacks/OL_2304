@@ -9,6 +9,7 @@
     <h1>画像のアップロード</h1>
     <div class="upload-box">
       <input type="file" @change="handleFileUpload" accept="image/*" />
+      <img v-if="uploadedImage" :src="uploadedImage" width="200"/>
     </div>
 
     <table>
@@ -50,7 +51,8 @@
 
   <div class="uploaded">
     <form method="post">
-      <button type="button" class="submitButton" @click.prevent="gotoFinishUpload">送信</button>
+      <button type="button" class="submitButton" @click.prevent="submitForm">送信</button>
+      <p v-if="errorMessage" class="error-message" style="color: red">{{ errorMessage }}</p>
     </form>
   </div>
 </template>
@@ -60,12 +62,16 @@
 import { firebaseApp } from '../firebase';
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { onMounted, ref } from 'vue';
+import { uploadCat } from '../CatFirebase.js'
+import { useRouter } from 'vue-router'
 
 export default {
 
   setup() {
+    const router = useRouter()
+    const uploadedImage = ref(null)
     const docRef = doc(getFirestore(firebaseApp), "TestCat", window.selectedCatID);
-    const url = ref('');
+    const image = ref(null)
     const color = ref('');
     const pattern = ref('');
     const breed = ref('');
@@ -75,10 +81,12 @@ export default {
     const isNew = ref('');
     const postedAt = ref('');
     const comment = ref('');
+    const latitude = ref('');
+    const longitude = ref('');
+    const errorMessage = ref('')
 
     onMounted(async () => {
       const docSnap = await getDoc(docRef);
-      url.value = docSnap.data().imageurl;
       color.value = docSnap.data().color;
       pattern.value = docSnap.data().pattern;
       breed.value = docSnap.data().breed;
@@ -88,10 +96,46 @@ export default {
       isNew.value = docSnap.data().isNew;
       postedAt.value = docSnap.data().postedAt;
       comment.value = docSnap.data().comment;
+      latitude.value = docSnap.data().latitude;
+      longitude.value = docSnap.data().longitude;
     });
 
+     const gotoFinishUpload = () => {
+      router.push({ name: 'FinishUpload' })
+    }
+
+    const submitForm = () => {
+      if (!image.value) {
+        errorMessage.value = '画像を選択してください'
+        return
+      }
+      uploadCat({
+        image: image.value,
+        color: color.value,
+        pattern: pattern.value,
+        breed: breed.value,
+        AdultOrChild: age.value,
+        isEarCut: isEarCut.value,
+        hasCollar: hasCollar.value,
+        comment: comment.value,
+        latitude: latitude.value,
+        longitude: longitude.value,
+        userId: 'testID',//TODO
+        isNew: 'False'
+      });
+      gotoFinishUpload();
+    }
+
+    const handleFileUpload = (event) => {
+      image.value = event.target.files[0]
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        uploadedImage.value = e.target.result
+      }
+      reader.readAsDataURL(image.value)
+    }
+
     return {
-      imgPath: url,
       color,
       pattern,
       breed,
@@ -101,6 +145,9 @@ export default {
       isNew,
       postedAt,
       comment,
+      submitForm,
+      handleFileUpload,
+      errorMessage
     };
 
   },
@@ -110,9 +157,6 @@ export default {
     msg: String
   },
   methods: {
-    gotoFinishUpload() {
-      this.$router.push({ name: 'FinishUpload' });
-    },
     formatDate(timestamp) {
       const date = new Date(timestamp.seconds * 1000);
       const year = date.getFullYear();
