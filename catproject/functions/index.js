@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 
 // メール送信の設定
 const transporter = nodemailer.createTransport({
-  service: "gmail", // 使用するメールサービス。ここではGmailを例としています。
+  service: "gmail", // 使用するメールサービス。
   auth: {
     user: "fumiwata2000@gmail.com", // 送信元のメールアドレス
     pass: "dnrq pqee debw wlmu", // 送信元のメールのパスワード
