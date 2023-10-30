@@ -50,7 +50,6 @@
 
 <script>
 import { getDocs } from 'firebase/firestore';
-// import { downloadCatsNearLocation } from '../CatFirebase.js'
 import { getFirestore, collection } from 'firebase/firestore';
 
 const db = getFirestore();
