@@ -79,4 +79,4 @@ Google Map API を利用し、猫の位置情報を地図上に表示します�
 
 #### ハッカソンで開発した独自機能・技術
 
-- 単純なクエリでは処理できない、位置情報を用いた[猫(ここのloadNearbyCats関数)](catproject/src/components/CatMap.vue)や[ユーザー](catproject/functions/index.js)の絞り込み機能を開発しました。
+- 単純なクエリでは処理できない、位置情報を用いた猫やユーザーの[絞り込み機能(loadNearbyCats関数)](catproject/src/components/CatMap.vue)を開発しました。
